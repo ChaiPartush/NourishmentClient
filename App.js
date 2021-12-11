@@ -1,33 +1,32 @@
-import { setStatusBarBackgroundColor, StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
-import { Text, View, ActivityIndicator } from 'react-native';
-import { getAllUsers } from './constants/api';
-import appStyles from './Styles/AppStyle';
+import * as Font from 'expo-font'
+import {MainControlScreen} from './screens/ControlMovingBetweenScreens/MainControlScreen'
+import { appLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 
-export default function App(props) {
-  const [users, setUsers] = useState([]);
+const getFonts = () => Font.loadAsync({
+  'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
+  'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
+  'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
+  'Poppins-Black': require('./assets/fonts/Poppins-Black.ttf'),
+})
 
-  useEffect(() => {
-    const userInfo = getUsersFromDB();
-    Promise.resolve(userInfo).then(value => {
-      setUsers(value)
-    })
-  })
+export default App = (props) => {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  const getUsersFromDB = async () => {
-    const userInfo = await getAllUsers();
-    return userInfo;
+  if (fontsLoaded) {
+    return (
+      <MainControlScreen />
+    );
+  } else {
+    return (
+      <AppLoading
+        startAsync={getFonts}
+        onFinish={() => setFontsLoaded(true)}
+        onError={(error) => console.warn(error)}
+      />
+    )
   }
 
-  return (
-    <View style={appStyles.container} >
-      <Text>Hello world</Text>
-      {users.map((key, i) => {
-        return <Text key={i}>{users[i]["name"]}</Text>
-      })}
-      <StatusBar style="auto" />
-    </View>
-  );
 }
-
-

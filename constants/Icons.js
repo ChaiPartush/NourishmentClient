@@ -1,0 +1,26 @@
+export const ICONS = {
+    coupon: require("../assets/icons/coupon.png"),
+    cross: require("../assets/icons/cross.png"),
+    cart: require("../assets/icons/cart.png"),
+    menu: require("../assets/icons/menu.png"),
+    search: require("../assets/icons/search.png"),
+    filter: require("../assets/icons/filter.png"),
+    down_arrow: require("../assets/icons/down_arrow.png"),
+    favourite: require("../assets/icons/favourite.png"),
+    burger: require("../assets/icons/burger.png"),
+    cherry: require("../assets/icons/cherry.png"),
+    rice: require("../assets/icons/rice.png"),
+    love: require("../assets/icons/love.png"),
+    calories: require("../assets/icons/calories.png"),
+    home: require("../assets/icons/home.png"),
+    location: require("../assets/icons/location.png"),
+    logout: require("../assets/icons/logout.png"),
+    notification: require("../assets/icons/notification.png"),
+    profile: require("../assets/icons/profile.png"),
+    setting: require("../assets/icons/setting.png"),
+    star: require("../assets/icons/star.png"),
+    wallet: require("../assets/icons/wallet.png"),
+    help: require("../assets/icons/help.png"),
+
+
+};
