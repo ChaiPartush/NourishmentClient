@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { GenderCard } from './GenderCard'
+import { styles } from '../../../../Styles/QuestionsToUserStyles/BmiComponentsStyle/ChooseGenderStyle'
 
 export const RenderGenderTypes = () => {
     const [selected, setSelected] = useState(null);
     return (
-        <View style={{ flexDirection: 'row' }}>
-
+        <View style={styles.rowCardsContainer}>
 
             <GenderCard
                 iconName='male'
@@ -14,7 +14,6 @@ export const RenderGenderTypes = () => {
                 onpress={(value) => setSelected(value)}
                 value={selected}
             />
-
 
             <GenderCard
                 iconName='female'

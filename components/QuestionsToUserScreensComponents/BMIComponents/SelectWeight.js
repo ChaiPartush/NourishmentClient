@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
-import { bmiCardStyle } from '../../../Styles/QuestionsToUserStyles/BmiCardStyle';
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { width } from '../../../constants/ScreenDimentionConst'
 import { COLORS } from '../../../constants/Colors';
-import * as Animatable from 'react-native-animatable'
-
+import { styles } from '../../../Styles/QuestionsToUserStyles/BmiComponentsStyle/SelectWeightStyle'
 
 export const SelectWeight = () => {
     const [weight, setWeight] = useState(20.0);
-    createWeightMoltiSlider = () => {
+    const createWeightMoltiSlider = () => {
         return (
             <MultiSlider
                 value={parseFloat(weight)}
@@ -45,19 +43,15 @@ export const SelectWeight = () => {
         )
     }
     return (
-        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center' }}>
-            <View style={[bmiCardStyle.card, { backgroundColor: '#F2DAC3', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }]}>
-                <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 18, color: '#8D8E98', fontWeight: 'bold' }}>WEIGHT</Text>
-                    <Animatable.View style={{ alignItems: 'center' }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                            <Text style={{ fontSize: 50, fontWeight: 'bold', color: '#8F4068' }}>{parseFloat(weight).toFixed(1).toString()}</Text>
-                            <Text style={{ fontSize: 18, color: '#8D8E98' }}>kg</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {createWeightMoltiSlider()}
-                        </View>
-                    </Animatable.View>
+        <View style={styles.container}>
+            <View style={styles.card}>
+                <View style={styles.columnStyle}>
+                    <Text style={styles.title}>WEIGHT</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                        <Text style={styles.weightNumber}>{parseFloat(weight).toFixed(1).toString()}</Text>
+                        <Text style={styles.kilogramtext}>kg</Text>
+                    </View>
+                    <View style={styles.multislider}>{createWeightMoltiSlider()}</View>
                 </View>
             </View>
         </View>
