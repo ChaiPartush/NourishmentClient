@@ -11,3 +11,4 @@ Every code I write must contain number things:
 2. no text in the code, connect to const file
 3. naming 
 4. all the code organize and can read it like a book
+5. 

@@ -17,6 +17,7 @@ export default App = (props) => {
 
   if (fontsLoaded) {
     return (
+      //uigioil
       <MainControlScreen />
     );
   } else {
