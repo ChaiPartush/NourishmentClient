@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { NavigationContainer, DefaultTheme as NavigationDefaultTheme, DarkTheme as NavigationDarkTheme } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Provider as PaperProvider, DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme, } from 'react-native-paper'
@@ -13,11 +13,16 @@ import { AuthContext } from '../../components/DefineOptionToPassInformainBetween
 import RootStackScreen from './RootStackScreen';
 import { ActivityIndicator } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PiecesContext } from '../../components/Context/PiecesContext';
 
 const Drawer = createDrawerNavigator();
 
 export const MainControlScreen = () => {
     const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+    const [pieChartPieces, setPieChartPueces] = useState([{ x: 1, y: 25 },
+    { x: 2, y: 25 },
+    { x: 3, y: 25 },
+    { x: 4, y: 25 }])
     const initialLoginState = {
         isLoading: false,
         userName: null,
@@ -79,9 +84,38 @@ export const MainControlScreen = () => {
         }
     };
 
+    const arraysMatch = (arr1, arr2) => {
+        if (arr1.length !== arr2.length) return false;
+        for (var i = 0; i < arr1.length; i++) {
+            if (arr1[i] !== arr2[i]) return false;
+        }
+        return true;
+    };
+
     const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
 
+    // const PieContext = () => ({
+    //     changePieces: (arr) => {
+    //         setPieChartPueces(arr);
+    //         console.log(pieChartPieces)
 
+    //     },
+
+    //     getPieces: () => {
+    //         return pieChartPieces;
+    //     }
+
+    // });
+
+    // const PieContext = (newPiePieces, wantTogetCurrentPieces) => {
+    //     if (newPiePieces !== null && arraysMatch(newPiePieces, pieChartPieces) === false) {
+    //         setPieChartPueces(newPiePieces)
+    //     }
+    //     if (wantTogetCurrentPieces === true) {
+    //         return pieChartPieces
+    //     }
+
+    // }
 
     const authContext = React.useMemo(() => ({
         signIn: async (foundUser) => {
@@ -137,8 +171,12 @@ export const MainControlScreen = () => {
     return (
         <PaperProvider theme={theme}>
             <AuthContext.Provider value={authContext}>
-                <NavigationContainer theme={theme}>
-                    {loginState.userToken !== null ? (
+                <PiecesContext.Provider value={[{ x: 1, y: 25 },
+                { x: 2, y: 25 },
+                { x: 3, y: 25 },
+                { x: 4, y: 25 }]}>
+                    <NavigationContainer theme={theme}>
+                        {/* {loginState.userToken !== null ? ( */}
                         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} screenOptions={{
                             headerShown: false
                         }}>
@@ -147,11 +185,12 @@ export const MainControlScreen = () => {
                             <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
                             <Drawer.Screen name="BookmarksScreen" component={BookmarksScreen} />
                         </Drawer.Navigator>
-                    )
-                        :
-                        <RootStackScreen />
-                    }
-                </NavigationContainer>
+                        {/* ) */}
+                        {/* : */}
+                        {/* <RootStackScreen /> */}
+                        {/* } */}
+                    </NavigationContainer>
+                </PiecesContext.Provider>
             </AuthContext.Provider>
         </PaperProvider >
     );

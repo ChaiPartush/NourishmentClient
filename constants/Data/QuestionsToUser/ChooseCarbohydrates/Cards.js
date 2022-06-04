@@ -1,5 +1,26 @@
 
+const products = [
+    {
+        id: 1,
+        name: "Hamburger",
+        description: "Chicken patty hamburger",
+        categories: [1, 2],
+        price: 15.99,
+        calories: 78,
+        isFavourite: true,
+        image: require("../../../../assets/images/QuestionsToUserScreensImages/ChooseCarbohydratesImages/hamburger.png")
+    },
 
+    {
+        id: 2,
+        name: 'Dragon Plant',
+        price: '29.99',
+        like: false,
+        img: require('../../../../assets/images/QuestionsToUserScreensImages/ChooseFatsImages/plant2.png'),
+        about:
+            'Dragon Plant one of the most popular and beautiful species that will produce clumpms. The storage of water often gives succulent plants a more swollen or fleshy appearance than other plants, a characteristic known as succulence.',
+    },
+]
 const hamburger = {
     id: 1,
     name: "Hamburger",

@@ -6,40 +6,43 @@ import * as Animatable from 'react-native-animatable'
 import { height } from '../../../../../constants/ScreenDimentionConst'
 import { CategoryListFatsComponent } from './CategoryListVitaminsComponent'
 import { CardChooseVitaminsComponent } from './CardChooseVitaminsComponent'
+import { CardChooseFood } from '../CardChooseFood'
+import pets from '../../../../../constants/Data/QuestionsToUser/ChooseVitamins/pets'
 
-export const ChooseVitamins = () => {
+export const ChooseVitamins = ({ items }) => {
   const [selectedCategoryIndex, setSeletedCategoryIndex] = React.useState(0);
   const [filteredPets, setFilteredPets] = React.useState([]);
+  let currentItems = items
 
   const renderVitminsCards = () => {
+
     return (
-      <Animatable.View
-        style={{ marginTop: 20, height: height * 0.5 }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={filteredPets}
-          renderItem={({ item, index }) => (
-            <CardChooseVitaminsComponent pet={item} />
-          )}
-        />
-      </Animatable.View>
+      <FlatList
+        columnWrapperStyle={{ justifyContent: 'space-evenly' }}
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
+        data={currentItems}
+        renderItem={({ item }) => (
+          <CardChooseFood plant={item} />
+        )}
+      />
     )
   }
 
   return (
-    <SafeAreaView style={{ flexDirection: 'column', height: '100%' }}>
-      <View style={styles.mainContainer}>
+    // <SafeAreaView style={{ flexDirection: 'column', height: '100%' }}>
+    <Animatable.View animation={'bounceInRight'} duration={1000} style={{ backgroundColor: 'white', height: height * 0.83, marginTop: height * 0.02 }}>
 
-        <CategoryListFatsComponent
+      {/* <CategoryListFatsComponent
           selectedCategoryIndex={selectedCategoryIndex}
           filteredPets={(value) => setFilteredPets(value)}
           selectIndex={(index) => setSeletedCategoryIndex(index)}
-        />
+        />  */}
 
-        {renderVitminsCards()}
+      {renderVitminsCards()}
 
-      </View>
-    </SafeAreaView >
+    </Animatable.View>
+    // </SafeAreaView >
   );
 };
 

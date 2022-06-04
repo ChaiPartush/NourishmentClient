@@ -7,16 +7,18 @@ export const styles = StyleSheet.create({
     cardContainer: {
         width: 150,
         padding: SIZES.radius,
-        alignItems: 'center',
+        marginBottom: 10,
         borderRadius: SIZES.radius,
         backgroundColor: COLORS.lightGray2
     },
     cardIcon: {
         width: 20,
         height: 20,
+        
     },
     cardIconContainer: {
-        flexDirection: 'row'
+        alignItems:'flex-end'
+      
     },
 
     cardContainerImage: {

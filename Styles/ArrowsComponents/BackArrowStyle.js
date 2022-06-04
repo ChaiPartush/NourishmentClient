@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '../../constants/Colors'
+import { height } from '../../constants/ScreenDimentionConst';
 import { SIZES } from '../../constants/Sizes'
 
 export const styles = StyleSheet.create({
@@ -10,9 +11,9 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 2
     },
     Icon: {
-        fontSize: 25,
+        fontSize: height*0.03,
         color: COLORS.black,
-        opacity: 1
+        opacity: 2
     },
     button: {
         padding: 10,

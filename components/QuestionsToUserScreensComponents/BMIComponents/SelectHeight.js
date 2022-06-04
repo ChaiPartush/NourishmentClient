@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable'
 import { styles } from '../../../Styles/QuestionsToUserStyles/BmiComponentsStyle/SelectHeightStyle'
 import { COLORS } from '../../../constants/Colors'
 
-export const SelectHeight = () => {
+export const SelectHeight = ({ chosenHeight }) => {
     const [height, setHeight] = useState(100);
     const renderSlider = () => {
         return (
@@ -20,7 +20,10 @@ export const SelectHeight = () => {
                 touchDimensions={{ borderRadius: 100 }}
                 sliderLength={160}
                 customMarker={(e) => { return (<View style={styles.sliderButton}></View>) }}
-                onValuesChange={(value) => { setHeight(Math.round(value)) }}
+                onValuesChange={(value) => {
+                    setHeight(Math.round(value))
+                    chosenHeight(Math.round(value))
+                }}
             />
         )
     }

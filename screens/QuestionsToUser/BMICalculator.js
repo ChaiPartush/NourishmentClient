@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, SafeAreaView, StatusBar, Text } from 'react-native';
 import { NextArrow } from '../../components/ArrowsComponents/NextArrow';
 import { BackArrow } from '../../components/ArrowsComponents/BackArrow';
@@ -6,9 +6,19 @@ import { RenderGenderTypes } from '../../components/QuestionsToUserScreensCompon
 import { SelectHeight } from '../../components/QuestionsToUserScreensComponents/BMIComponents/SelectHeight'
 import { SelectBirthday } from '../../components/QuestionsToUserScreensComponents/BMIComponents/SelectBirthday'
 import { SelectWeight } from '../../components/QuestionsToUserScreensComponents/BMIComponents/SelectWeight'
+import { db } from '../../config';
+import { FoodTypes } from '../../constants/Logics/FoodTypes';
+
+export const BMICalculator = ({ route, navigation }) => {
+    const { targetName } = route.params
+
+    const [gender, setGender] = useState(null)
+    const [height, setHeight] = useState(null)
+    const [birthday, setBirthday] = useState(null)
+    const [weight, setWeight] = useState(null)
+    const [carbs, setCarbs] = useState([])
 
 
-export const BMICalculator = ({ navigation }) => {
 
     const createBackArrowView = () => {
         return (
@@ -18,9 +28,30 @@ export const BMICalculator = ({ navigation }) => {
         )
     }
     const createNextArrowView = () => {
+        let arr = []
+        const parentFoodString = "/foodType_carbohydrates"
+        const parentFooddItems = db.collection(parentFoodString)
+        parentFooddItems.onSnapshot((querySnapShot) =>
+            querySnapShot.forEach((doc) => {
+                const itemName = doc.data()["name"]
+                const itemImage = doc.data()["image"]
+                const obj = { name: itemName, img: itemImage }
+                arr.push(obj)
+            }))
+
+
+
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                <NextArrow navigateToPageFunc={() => navigation.navigate('ChooseProblem')} />
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                <NextArrow navigateToPageFunc={() => navigation.navigate('ChoosefavoriteFood', {
+                    chosenTarget: targetName,
+                    chosenGender: gender,
+                    chosenHeight: height,
+                    chosenBirthday: birthday,
+                    chosenWeight: weight,
+                    carbs: arr
+
+                })} />
             </View>
         )
     }
@@ -44,17 +75,20 @@ export const BMICalculator = ({ navigation }) => {
 
             <View style={{ flex: 1, flexDirection: 'column', marginTop: -110 }} >
 
-                <RenderGenderTypes />
+                <RenderGenderTypes gender={(value) => setGender(value)} />
 
                 <View style={{ flexDirection: 'row', flex: 1, borderRadius: 10 }}>
-                    <SelectHeight />
-                    <SelectBirthday />
+                    <SelectHeight chosenHeight={(value) => setHeight(value)} />
+                    <SelectBirthday birthday={(value) => setBirthday(value)} />
                 </View>
 
-                <SelectWeight />
+                <SelectWeight selectedWeight={(value) => setWeight(value)} />
 
             </View>
             {createNextArrowView()}
+
+
+
 
         </SafeAreaView >
 

@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
-import {COLORS} from '../../../../constants/Colors'
-import { width } from '../../../../constants/ScreenDimentionConst'
+import { COLORS } from '../../../../constants/Colors'
+import { width, height } from '../../../../constants/ScreenDimentionConst'
 
 
 export const styles = StyleSheet.create({
     categoryContainer: {
         flexDirection: 'row',
-        marginTop: -50,
+        // marginTop: -50,
         marginBottom: 20,
         justifyContent: 'space-between',
     },
@@ -18,13 +18,13 @@ export const styles = StyleSheet.create({
         borderColor: 'green',
     },
     card: {
-        height: 225,
+        height:height*0.3,
         backgroundColor: COLORS.light,
-        width:width/ 2 - 30,
-        marginHorizontal: 2,
-        borderRadius: 10,
+        width: width *0.40,
+        borderRadius: 30,
         marginBottom: 20,
         padding: 15,
+
     },
     header: {
         marginTop: 30,

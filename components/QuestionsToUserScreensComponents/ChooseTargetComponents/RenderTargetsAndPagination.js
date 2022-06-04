@@ -3,18 +3,18 @@ import { View, ScrollView } from 'react-native';
 import { Pagination } from './Pagination'
 import { ScrollTargets } from './ScrollTargets'
 
-export const RenderTargetsAndPagination = () => {
+export const RenderTargetsAndPagination = ({target}) => {
     const [currentIndex, setCurrentIndex] = useState(0)
     return (
         <View style={{ flex: 1, flexDirection: 'column' }}>
-            <ScrollView style={{ backgroundColor: 'white' }}>
+            {/* <ScrollView style={{ backgroundColor: 'white' }}> */}
                 <View>
                     <View style={{ height: '100%' }}>
-                        <ScrollTargets onpress={(value) => setCurrentIndex(value)} />
+                        <ScrollTargets onpress={(value) => target(value)} />
                     </View>
 
                 </View>
-            </ScrollView>
+            {/* </ScrollView> */}
             <View style={{ alignItems: 'center', marginTop: 30, height: '3%' }}>
                 <Pagination currentIndex={currentIndex} />
             </View>

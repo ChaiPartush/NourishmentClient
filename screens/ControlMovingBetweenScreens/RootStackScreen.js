@@ -11,7 +11,7 @@ import { BMICalculator } from '../QuestionsToUser/BMICalculator'
 import { DetailsChooseProblem } from '../../components/QuestionsToUserScreensComponents/ChooseHealthProblemComponent/DetailsChooseProblem'
 import { DescriptionScreen } from '../../components/QuestionsToUserScreensComponents/ChooseLifestyleComponents/DescriptionScreen';
 import MainTabScreen from '../MainPage/BottomTabs/MainTabScreen'
-
+import { NavigationContainer } from '@react-navigation/native';
 
 const RootStack = createStackNavigator();
 
@@ -48,58 +48,61 @@ const transition = ({ transitionType }) => {
     )
 }
 
-const RootStackScreen = ({ navigation }) => (
-    <RootStack.Navigator screenOptions={{
-        headerShown: false,
-    }}>
-        {/* <RootStack.Screen name="SplashScreen" component={SplashScreen} /> */}
-        <RootStack.Screen name="SignInAndSignUpScreen" component={SignInAndSignUpScreen} />
-        <RootStack.Screen name="ChooseTarget" component={ChooseTarget} />
-        <RootStack.Screen name="BMICalculator" component={BMICalculator} options={
-            {
-                transitionSpec: {
-                    open: config,
-                    close: closeConfig,
-                },
-                cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
-            }
-        } />
-        <RootStack.Screen name="ChooseProblem" component={ChooseProblem} options={
-            {
-                transitionSpec: {
-                    open: config,
-                    close: closeConfig,
-                },
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            }} />
-        <RootStack.Screen name="ChooseLifeStyle" component={ChooseLifeStyle} options={
-            {
-                transitionSpec: {
-                    open: config,
-                    close: closeConfig,
-                },
-                cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid,
-            }} />
-        <RootStack.Screen name="ChoosefavoriteFood" component={ChoosefavoriteFood} options={
-            {
-                transitionSpec: {
-                    open: config,
-                    close: closeConfig,
-                },
-                cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,
-            }} />
-        <RootStack.Screen name="DetailsChooseProblem" component={DetailsChooseProblem} options={transition(CardStyleInterpolators.forModalPresentationIOS)} />
-        <RootStack.Screen name="DescriptionScreen" component={DescriptionScreen} />
-        <RootStack.Screen name="MainTabScreen" component={MainTabScreen}
-            options={
+export const RootStackScreen = ({ navigation }) => (
+    <NavigationContainer >
+        <RootStack.Navigator screenOptions={{
+            headerShown: false,
+        }}>
+
+            {/* <RootStack.Screen name="SplashScreen" component={SplashScreen} /> */}
+            {/* <RootStack.Screen name="SignInAndSignUpScreen" component={SignInAndSignUpScreen} /> */}
+            <RootStack.Screen name="ChooseTarget" component={ChooseTarget} />
+            <RootStack.Screen name="BMICalculator" component={BMICalculator} options={
+                {
+                    transitionSpec: {
+                        open: config,
+                        close: closeConfig,
+                    },
+                    cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
+                }
+            } />
+            {/* <RootStack.Screen name="ChooseProblem" component={ChooseProblem} options={
+                {
+                    transitionSpec: {
+                        open: config,
+                        close: closeConfig,
+                    },
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                }} />
+            <RootStack.Screen name="ChooseLifeStyle" component={ChooseLifeStyle} options={
                 {
                     transitionSpec: {
                         open: config,
                         close: closeConfig,
                     },
                     cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid,
+                }} /> */}
+            <RootStack.Screen name="ChoosefavoriteFood" component={ChoosefavoriteFood} options={
+                {
+                    transitionSpec: {
+                        open: config,
+                        close: closeConfig,
+                    },
+                    cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,
                 }} />
-    </RootStack.Navigator>
+            <RootStack.Screen name="DetailsChooseProblem" component={DetailsChooseProblem} options={transition(CardStyleInterpolators.forModalPresentationIOS)} />
+            <RootStack.Screen name="DescriptionScreen" component={DescriptionScreen} />
+
+            <RootStack.Screen name="MainTabScreen" component={MainTabScreen}
+                options={
+                    {
+                        transitionSpec: {
+                            open: config,
+                            close: closeConfig,
+                        },
+                        cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid,
+                    }} />
+        </RootStack.Navigator>
+    </NavigationContainer >
 );
 
-export default RootStackScreen;

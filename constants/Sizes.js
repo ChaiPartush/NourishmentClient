@@ -1,3 +1,5 @@
+import { width, height } from './ScreenDimentionConst'
+
 export const SIZES = {
     base: 8,
     font: 14,
@@ -15,5 +17,10 @@ export const SIZES = {
     body3: 16,
     body4: 14,
     body5: 12,
+    mealCardWidth: width * 0.9,
+    mealCardHeaight: height * 0.32,
+    foodCardProductWidth: width * 0.3,
+    foodCardProductHeight: height * 0.2,
+
 };
 

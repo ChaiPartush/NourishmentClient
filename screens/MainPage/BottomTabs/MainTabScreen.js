@@ -1,67 +1,62 @@
 import React from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from './HomeScreen'
+import { MenuScreen } from './MenuScreen'
+import { StatusBar } from 'react-native'
 import { DetailsScreen } from './DetailsScreen';
 import ProfileScreen from './ProfileScreen/ProfileScreen';
 import ExploreScreen from '../../MainPage/BottomTabs/ExploreScreen';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { Ionicons } from '@expo/vector-icons'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
-const MainTabScreen = ({ navigation }) => (
+
+const MainTabScreen = ({ navigation, route }) => (
     <Tab.Navigator
+        style={{ paddingTop: StatusBar.currentHeight }}
         initialRouteName="Home"
         activeColor="#fff"
 
     >
+
         <Tab.Screen
             name="Feed"
-            component={HomeScreen}
-
-            options={{
-                tabBarLabel: 'Home',
-                tabBarColor: '#009387',
-                tabBarIcon: ({ color }) => (
-                    <Icon name="ios-home" color={color} size={26} />
-                ),
+            component={MenuScreen}
+            options={{ title: ({ color, focused }) => <Ionicons size={25} name={focused ? 'home' : 'home-outline'} color={focused ? 'blue' : '#272727'} /> }}
+            initialParams={{
+                chosenTarget: route.params.chosenTarget,
+                chosenGender: route.params.chosenGender,
+                chosenHeight: route.params.chosenHeight,
+                chosenBirthday: route.params.chosenBirthday,
+                chosenWeight: route.params.chosenWeight,
+                chosenProducts: route.params.chosenProducts
             }}
         />
         <Tab.Screen
             name="Detail"
             component={DetailsScreen}
-            options={{
-                tabBarLabel: 'Details',
-                tabBarColor: '#1f65ff',
-                tabBarIcon: ({ color }) => (
-                    <Icon name="ios-notifications" color={color} size={26} />
-                ),
-            }}
+            options={{ title: ({ color, focused }) => <Ionicons size={25} name={focused ? 'people-sharp' : 'people-outline'} color={focused ? 'blue' : '#272727'} /> }}
         />
         <Tab.Screen
             name="Profile"
             component={ProfileScreen}
-            options={{
-                tabBarLabel: 'Profile',
-                tabBarColor: '#694fad',
-                tabBarIcon: ({ color }) => (
-                    <Icon name="ios-person" color={color} size={26} />
-                ),
-            }}
+            options={{ title: ({ color, focused }) => <Ionicons size={25} name={focused ? 'search' : 'search-outline'} color={focused ? 'blue' : '#272727'} /> }}
         />
         <Tab.Screen
             name="Explore"
             component={ExploreScreen}
-            options={{
-                tabBarLabel: 'Explore',
-                tabBarColor: '#d02860',
-                tabBarIcon: ({ color }) => (
-                    <Icon name="ios-aperture" color={color} size={26} />
-                ),
-            }}
+            options={{ title: ({ color, focused }) => <Ionicons size={25} name={focused ? 'person' : 'person-outline'} color={focused ? 'blue' : '#272727'} /> }}
+        // options={{
+        //     tabBarLabel: 'Explore',
+        //     tabBarColor: '#d02860',
+        //     tabBarIcon: ({ color }) => (
+        //         <Icon name="ios-aperture" color={color} size={26} />
+        //     ),
+        // }}
         />
     </Tab.Navigator>
 

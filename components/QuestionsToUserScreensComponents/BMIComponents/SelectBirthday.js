@@ -6,7 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { styles } from '../../../Styles/QuestionsToUserStyles/BmiComponentsStyle/SelectBirthdayStyle';
 import FontAwsome from 'react-native-vector-icons/FontAwesome';
 
-export const SelectBirthday = () => {
+export const SelectBirthday = ({ birthday }) => {
     const [text, setText] = useState('11/11/2011')
     const [date, setDate] = useState(new Date());
     const [showCalender, setShowCalender] = useState(false);
@@ -19,11 +19,25 @@ export const SelectBirthday = () => {
         return getDay + '/' + getMonth + '/' + getYear
     }
 
+    const getDateObject = (selectedDate) => {
+        const createDateType = new Date(selectedDate);
+        const getDay = createDateType.getDate();
+        const getMonth = createDateType.getMonth() + 1;
+        const getYear = createDateType.getFullYear();
+        return {
+            day: getDay,
+            month: getMonth,
+            year: getYear
+        }
+    }
+
+
     const onChange = (event, selectedDate) => {
         if (selectedDate != null) {
             setDate(selectedDate)
             setText(getDateText(selectedDate))
             setShowCalender(false)
+            birthday(getDateObject(selectedDate))
         }
     };
 

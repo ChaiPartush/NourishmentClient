@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, BackHandler, TextInput, Button, Platform, Dimensions, Image, StyleSheet, TouchableOpacity, Alert, StatusBar } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -7,7 +7,7 @@ import FontAwsome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from 'react-native-paper';
-import { AuthContext } from '../DefineOptionToPassInformainBetweenScreens'
+import { AuthContext } from '../../components/DefineOptionToPassInformainBetweenScreens'
 
 import { onSubmitLoginForm } from './SignInAndSignUpConnectDBQueries'
 import { styles } from '../../Styles/SignInAndSignUpStyle'

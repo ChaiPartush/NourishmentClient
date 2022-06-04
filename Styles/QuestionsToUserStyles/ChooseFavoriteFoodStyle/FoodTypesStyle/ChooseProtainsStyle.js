@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import {COLORS} from '../../../../constants/Colors'
-import { width } from '../../../../constants/ScreenDimentionConst'
+import { COLORS } from '../../../../constants/Colors'
+import { height, width } from '../../../../constants/ScreenDimentionConst'
 const cardWidth = width / 2 - 20;
 
 export const styles = StyleSheet.create({
@@ -50,12 +50,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     card: {
-        height: 220,
-        width: cardWidth,
-        marginHorizontal: 10,
+        height: height * 0.3,
+        width: width * 0.4,
+        marginHorizontal: width *0.05,
+        marginTop:height*0.01,
         marginBottom: 20,
-        marginTop: 50,
-        borderRadius: 15,
+        borderRadius: 20,
         elevation: 13,
         backgroundColor: COLORS.white,
     },

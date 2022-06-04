@@ -2,23 +2,30 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { GenderCard } from './GenderCard'
 import { styles } from '../../../../Styles/QuestionsToUserStyles/BmiComponentsStyle/ChooseGenderStyle'
-
-export const RenderGenderTypes = () => {
+import { GenderType } from '../../../../constants/Logics/CalculateBmrConsts'
+export const RenderGenderTypes = ({ gender }) => {
     const [selected, setSelected] = useState(null);
     return (
         <View style={styles.rowCardsContainer}>
 
             <GenderCard
                 iconName='male'
-                title="MALE"
-                onpress={(value) => setSelected(value)}
+                title={GenderType.male}
+                onpress={(value) => {
+                    setSelected(value)
+                    gender(value)
+
+                }}
                 value={selected}
             />
 
             <GenderCard
                 iconName='female'
-                title='FEMALE'
-                onpress={(value) => setSelected(value)}
+                title={GenderType.female}
+                onpress={(value) => {
+                    setSelected(value)
+                    gender(value)
+                }}
                 value={selected}
             />
 

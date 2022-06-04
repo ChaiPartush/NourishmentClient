@@ -1,17 +1,19 @@
 import React from 'react';
 import { View, TouchableOpacity, } from 'react-native';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
-import { styles } from '../../Styles/ArrowsComponents/NextArrowStyle'
+import { styles } from '../../Styles/ArrowsComponents/BackArrowStyle'
+import { height, width } from '../../constants/ScreenDimentionConst'
 
-export const NextArrow = ({ navigateToPageFunc }) => {
+
+export const NextArrow = ({ navigateToPageFunc, contentStyle }) => {
     return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={navigateToPageFunc}>
-                <View style={styles.button}>
-                    <AntDesignIcons name="right" style={styles.icon} />
-                </View>
-            </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity onPress={navigateToPageFunc} style={contentStyle} >
+            <View>
+                <AntDesignIcons name="right" style={styles.Icon} />
+            </View>
+        </TouchableOpacity >
+
     )
 }
 

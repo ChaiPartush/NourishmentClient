@@ -5,7 +5,7 @@ import { width } from '../../../constants/ScreenDimentionConst'
 import { COLORS } from '../../../constants/Colors';
 import { styles } from '../../../Styles/QuestionsToUserStyles/BmiComponentsStyle/SelectWeightStyle'
 
-export const SelectWeight = () => {
+export const SelectWeight = ({ selectedWeight }) => {
     const [weight, setWeight] = useState(20.0);
     const createWeightMoltiSlider = () => {
         return (
@@ -38,6 +38,7 @@ export const SelectWeight = () => {
                 onValuesChange={(value) => {
 
                     setWeight(value)
+                    selectedWeight(value[0])
                 }}
             />
         )

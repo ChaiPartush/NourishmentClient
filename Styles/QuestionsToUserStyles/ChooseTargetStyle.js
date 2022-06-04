@@ -6,12 +6,13 @@ export const styles = StyleSheet.create({
 
         height: 0.20 * height,
         backgroundColor: "#FFE4D9",
-        borderBottomRightRadius: 75
+        borderBottomRightRadius: 75,
+        justifyContent: 'center'
     },
     titleContainer: {
-        height: 80,
-        justifyContent: 'center',
-        transform: [{ translateY: 60 }]
+        // height: 80,
+        // justifyContent: 'center',
+        // transform: [{ translateY: height*0.0007 }]
     },
     title: {
         fontSize: 35,
@@ -25,6 +26,8 @@ export const styles = StyleSheet.create({
         height: 0.12 * height,
         backgroundColor: "#FFE4D9",
         borderTopRightRadius: 75,
+        alignItems: 'flex-end',
+        justifyContent: 'center'
 
     },
     button1: {

@@ -21,6 +21,7 @@ export const ICONS = {
     star: require("../assets/icons/star.png"),
     wallet: require("../assets/icons/wallet.png"),
     help: require("../assets/icons/help.png"),
-
+    minus: require("../assets/icons/minus.png"),
+    plus : require("../assets/icons/plus.png")
 
 };
