@@ -149,16 +149,21 @@ export const MenuScreen = ({ route }) => {
 
   }
 
+
   const MealsD = () => {
-   // const age = GetAge(birthday)
+    // const age = GetAge(birthday)
     LogicIndex(168, 80.5, "Male", 39, "Balanced diet",
-      ["rice",
+      [
+        "rice",
         "qinoa",
         "beef",
-        "breast",
+        //"breast",
         "almond",
         "avocado",
-        "tomatto"])
+        "tomatto"
+      ]
+
+    )
   }
 
 

@@ -8,6 +8,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { FoodTypes } from '../constants/Logics/FoodTypes'
 import { db } from '../config'
 import { identity, json } from 'mathjs'
+import { constraintToPreRow } from 'simple-simplex/dist/lib/simple-simplex/simplex-helpers'
 let productsObject = []
 
 let arr = []
@@ -46,10 +47,10 @@ const getProductObject = async (productName) => {
         if (doc.exists) {
             const itemObj = {
                 caloriesFor100Grams: doc.data()["caloriesFor100Grams"],
-                carbohydrateFor100Grams: doc.data()["carbohydrateFor100Grams"],
-                fatFor100Grams: doc.data()["fatFor100Grams"],
+                carbohydratesFor100Grams: doc.data()["carbohydratesFor100Grams"],
+                fatsFor100Grams: doc.data()["fatsFor100Grams"],
                 name: doc.data()["name"],
-                protainFor100Grams: doc.data()["protainFor100Grams"],
+                protainsFor100Grams: doc.data()["protainsFor100Grams"],
             }
             return itemObj
         }
@@ -80,11 +81,17 @@ export const LogicIndex = async (height, weight, gender, age, target, namesOfLik
     // get the value of carbohydrates,protains,fats and calories of each product of likes foods
     const productsParentFoodValues = await ProductValuesObject(namesOfLikesProductsArray)
 
-    // claculate the amount of chosen products by:
-    // 1. The values of carbohydrates,protains,fats and caloris 
-    // 2. The total carbohydrates,protains,fats and caloris values
-    CalculateProductsQuantity(productsParentFoodValues, totalQuantityForEachParentFoodObject)
+   
+    const productsQuantity = CalculateProductsQuantity(productsParentFoodValues, totalQuantityForEachParentFoodObject)
+    console.log(productsQuantity)
+
+
+
+
+
+
+
     //const quantityForEachLikeProductObject = await DivideFoodTypesValuesToProducts(values, totalQuantityForEachParentFoodObject)
-    // const createMealsObject = CreateMeals(quantityForEachLikeProductObject)
+    //const createMealsObject = CreateMeals(productsQuantity)
     // return createMealsObject
 }
