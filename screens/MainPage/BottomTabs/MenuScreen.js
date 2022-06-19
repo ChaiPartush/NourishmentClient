@@ -17,9 +17,9 @@ import { WorkoutTypeCard } from '../../../components/HomeScreen/WorkoutTypeCard'
 import { PieChart } from 'react-minimal-pie-chart';
 import { PiecesContext } from "../../../components/Context/PiecesContext";
 import { ThingsContext } from '../../../components/HomeScreen/thingsContext'
-import { LogicIndex } from '../../../Logics/LogicIndex'
+import { LogicIndex, Meals } from '../../../Logics/LogicIndex'
 import { ConstantNodeDependencies, json } from "mathjs";
-
+import { FoodTypes } from "../../../constants/Logics/FoodTypes";
 
 const meals = [...Array(12).keys()].map((i) => (i === 0 ? 1 : i + 1));
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
@@ -69,13 +69,15 @@ const workouts = [
 ]
 
 
-export const MenuScreen = ({ route }) => {
-  // const target = route.params.chosenTarget;
-  // const gender = route.params.chosenGender;
-  // const height = route.params.chosenHeight;
-  // const birthday = route.params.chosenBirthday;
-  // const weight = route.params.chosenWeight;
-  // const products = route.params.chosenProducts;
+export const MenuScreen = ({ route, navigation }) => {
+  const userTarget = route.params.chosenTarget;
+  const userGender = route.params.chosenGender;
+  const userHeight = route.params.chosenHeight;
+  const userBirthday = route.params.chosenBirthday;
+  const userWeight = route.params.chosenWeight;
+  const userProducts = route.params.chosenProducts;
+
+
 
 
   const y = new Animated.Value(0);
@@ -84,6 +86,8 @@ export const MenuScreen = ({ route }) => {
   const [selected, setSelected] = useState(0);
   const [mealsNumber, setMealsNumber] = useState(4)
   const [value, setValue] = useState([])
+  const [word, setWord] = useState('')
+  const [meals, setMeals] = useState(null)
   const [precentByIndex, setPrecentByIndex] = useState({});
   const [productObj, setProductObj] = useState({})
 
@@ -151,19 +155,43 @@ export const MenuScreen = ({ route }) => {
 
 
   const MealsD = () => {
-    // const age = GetAge(birthday)
-    LogicIndex(168, 80.5, "Male", 39, "Balanced diet",
-      [
-        "rice",
-        "qinoa",
-        "beef",
-        //"breast",
-        "almond",
-        "avocado",
-        "tomatto"
-      ]
-
+    LogicIndex(
+      userHeight,
+      userWeight,
+      userGender,
+      GetAge(userBirthday),
+      userTarget,
+      userProducts
     )
+      .then((value) => {
+        if (value === FoodTypes.carbohydrates || value === FoodTypes.fats || value === FoodTypes.protains) {
+          navigation.navigate('ChoosefavoriteFood', {
+            page: value,
+            chosenTarget: userTarget,
+            chosenGender: userGender,
+            chosenHeight: userHeight,
+            chosenBirthday: userBirthday,
+            chosenWeight: userWeight,
+            chosenProducts: userProducts
+        })
+        } else {
+          setMeals(value)
+        }
+      })
+
+
+
+
+
+    // return (
+    //   <View>
+    //     {
+    //       Object.keys(obj).map(meal =>
+    //         <Text key={meal}>{meals[meal]}</Text>
+    //       )
+    //     }
+    //   </View>
+    //)
   }
 
 
@@ -175,11 +203,16 @@ export const MenuScreen = ({ route }) => {
 
 
 
+
+
+
   return (
-
-    <View style={{ flexDirection: 'column' }}>
-
+    <View style={{ marginHorizontal: 10, alignItems: 'center', marginTop: height / 4, marginLeft: 25 }}>
       {MealsD()}
+      <Text>{meals}</Text>
+    </View>
+  )
+}
 
 
 
@@ -187,11 +220,11 @@ export const MenuScreen = ({ route }) => {
 
 
 
-      {/* {() => <LogicIndex height={177} width={65} age={22} target={'Loss Weight'}
+{/* {() => <LogicIndex height={177} width={65} age={22} target={'Loss Weight'}
         namesOfLikesProductsArray={["rice", "breast", "avocado", "tomatto", "qinoa", "almond", "beef"]
         } />} */}
-      {/* {console.log(LogicIndex(177, 65, 'male', 22, 'Loss Weight', ["rice", "breast", "avocado", "tomatto", "qinoa", "almond", "beef"]))} */}
-      {/* <Text style={{ fontSize: 10, color: 'black' }}>
+{/* {console.log(LogicIndex(177, 65, 'male', 22, 'Loss Weight', ["rice", "breast", "avocado", "tomatto", "qinoa", "almond", "beef"]))} */ }
+{/* <Text style={{ fontSize: 10, color: 'black' }}>
         {JSON.stringify(
           DivideFoodTypesValuesToProducts(
             ['tomatto', 'rice', 'qinoa'],
@@ -201,17 +234,17 @@ export const MenuScreen = ({ route }) => {
             changeFoodTypesCounterProducts
           ))}
       </Text> */}
-      <View style={{ flexDirection: 'row', marginHorizontal: 10, justifyContent: 'space-evenly', marginTop: 15 }}>
+{/* <View style={{ flexDirection: 'row', marginHorizontal: 10, justifyContent: 'space-evenly', marginTop: 15 }}>
         <MealsNumber onPress={(value) => { setMealsNumber(value) }} />
         <SwichSelector />
-      </View>
+      </View> */}
 
-      <PieChartWithLines mealsNumber={mealsNumber} precentByValue={precentByIndex} piePieces={(value) => { setPiecs(value); }} />
+{/* <PieChartWithLines mealsNumber={mealsNumber} precentByValue={precentByIndex} piePieces={(value) => { setPiecs(value); }} /> */ }
 
 
-      <View style={{ flexDirection: 'row', marginHorizontal: 10, justifyContent: 'space-evenly', marginTop: 15 }}>
+{/* <View style={{ flexDirection: 'row', marginHorizontal: 10, justifyContent: 'space-evenly', marginTop: 15 }}> */ }
 
-        {/* <View style={{ borderRadius: 20, elevation: 20, backgroundColor: COLORS.light }}>
+{/* <View style={{ borderRadius: 20, elevation: 20, backgroundColor: COLORS.light }}>
 
           <PieChart
             data={pieChartData}
@@ -222,12 +255,12 @@ export const MenuScreen = ({ route }) => {
           />
         </View> */}
 
-        {/* <View style={{ borderRadius: 20, elevation: 20, backgroundColor: COLORS.light, flexDirection: 'row', justifyContent: 'space-evenly', padding: 20 }}> */}
-        {/* <View style={{ borderRadius: 20, elevation: 20, backgroundColor: COLORS.light, marginRight: 20, padding: 10 }} >
+{/* <View style={{ borderRadius: 20, elevation: 20, backgroundColor: COLORS.light, flexDirection: 'row', justifyContent: 'space-evenly', padding: 20 }}> */ }
+{/* <View style={{ borderRadius: 20, elevation: 20, backgroundColor: COLORS.light, marginRight: 20, padding: 10 }} >
             <Text style={{ color: COLORS.gray, fontWeight: 'bold' }}>Time</Text>
 
           </View> */}
-        {/* <View style={{ borderRadius: 20, elevation: 20, backgroundColor: COLORS.light, padding: 10, height: height * 0.2 }}>
+{/* <View style={{ borderRadius: 20, elevation: 20, backgroundColor: COLORS.light, padding: 10, height: height * 0.2 }}>
             <Text style={{ color: COLORS.gray, fontWeight: 'bold' }}>Type of workout</Text>
             < FlatList
               data={workouts}
@@ -241,9 +274,7 @@ export const MenuScreen = ({ route }) => {
           </View> */}
 
 
-        {/* </View> */}
-
-      </View>
+{/* </View> */ }
 
 
 
@@ -252,16 +283,15 @@ export const MenuScreen = ({ route }) => {
 
 
 
-      {/* < FlatList
+
+
+{/* < FlatList
         data={mealsArrayByMealsNumber(mealsNumber)}
         renderItem={({ item, index }) => (
           <CardMeal backgroundColor={item.color} index={index} mealsNumber={mealsNumber} piePieces={pieces} newPrecent={(value) => { setPrecentByIndex({ id: index, precent: value[0] }) }} />)}
         keyExtractor={(item, index) => index.toString()}
       /> */}
 
-    </View >
+{/* // </View > */ }
 
 
-
-  )
-}

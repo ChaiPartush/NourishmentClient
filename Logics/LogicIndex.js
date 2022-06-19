@@ -3,41 +3,52 @@ import { ChangeCaloriesByTarget } from './2. UpdateCaloriesByTarget/ChangeCalori
 import { CalculateAmountOfFoodTypes } from './3. AmountEachParentFood/CalculateAmountOfFoodTypes'
 import { DivideFoodTypesValuesToProducts } from './4. CalculateQuantityForEachLikeProducts/CalculateQuantityOfEachFood'
 import { CalculateProductsQuantity } from './4. CalculateQuantityForEachLikeProducts/CaluculateProductsQuantity'
-import { CreateMeals } from './5. CreateMeals/CreateMeals'
-import React, { useState, useEffect, useContext } from "react";
 import { FoodTypes } from '../constants/Logics/FoodTypes'
 import { db } from '../config'
-import { identity, json } from 'mathjs'
-import { constraintToPreRow } from 'simple-simplex/dist/lib/simple-simplex/simplex-helpers'
-let productsObject = []
+import { CreateMenuMealsByNumberOfMeals } from './5. CreateMeals/CreateMenuMeals'
+import { useRef } from 'react'
 
-let arr = []
+export const LogicIndex = async (height, weight, gender, age, target, namesOfLikesProductsArray) => {
+    let productsParentFoodValues = useRef({})
+    // calculate how many calories the body need to stay alive
+    const bmr = CalculateBmr(height, weight, gender, age)
+    // change the number of calories we calculate above by target 
+    const caloriesByTarget = ChangeCaloriesByTarget(bmr, target)
+    // calculate total carbohydrates,protains and fats we put in a menu
+    const totalQuantityForEachParentFoodObject = CalculateAmountOfFoodTypes(caloriesByTarget, weight)
+    // get the value of carbohydrates,protains,fats and calories of each product of likes foods
+    for (let index = 0; index < namesOfLikesProductsArray.length; index++) {
+        const product = namesOfLikesProductsArray[index];
+        const itemObj = await getProductObject(product)
+        productsParentFoodValues.current[product] = itemObj
+    }
 
-// const GetField = () => {
-//     const parentFoodString = "/foodType_" + 'carbohydrates'
-//     const citiesRef = db.collection(parentFoodString)
-//     const snapshot = await citiesRef.where('id', '==', 1).get();
-//     if (snapshot.empty) {
-//         console.log('No matching documents.');
-//     }
+    // Calculate quantity of each prodct by total food types values
+    const productsQuantity = CalculateProductsQuantity(productsParentFoodValues.current, totalQuantityForEachParentFoodObject)
+    let meals = null
 
-//     snapshot.forEach(doc => {
-//         console.log(doc.data()["name"]);
-//     });
-// }
+    // check if succeed to 
+    if (productsQuantity["result"] === true) {
 
-const GetProductObject = async (productName) => {
-    const DeviceHost = "192.168.1.14";
-    const body = { productName };
-    let a = await fetch(`http://${DeviceHost}:3000/food/getProductObject`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-    })
-
-    const b = await a.json()
-    return b
+        // if success to get quantity of each product by food types values order it by number of meals and
+        // precent of each meal from total calories  
+        meals = CreateMenuMealsByNumberOfMeals(productsQuantity["value"], { 1: 25, 2: 25, 3: 25, 4: 25 }, productsParentFoodValues.current)
+        CheckTotal(meals, productsParentFoodValues.current, totalQuantityForEachParentFoodObject)
+        // create meals object to string 
+        const mealsJson = JSON.stringify(meals)
+        // return meals 
+        return mealsJson
+    }
+    else {
+        const value = productsQuantity["value"]
+        const carbohydrate = Math.abs(value[FoodTypes.carbohydrates])
+        const fats = Math.abs(value[FoodTypes.fats])
+        const protains = Math.abs(value[FoodTypes.protains])
+        const maxValue = CheckForMaxType(carbohydrate, fats, protains)
+        return maxValue
+    }
 }
+
 
 const getProductObject = async (productName) => {
     for (let foodType in FoodTypes) {
@@ -51,6 +62,7 @@ const getProductObject = async (productName) => {
                 fatsFor100Grams: doc.data()["fatsFor100Grams"],
                 name: doc.data()["name"],
                 protainsFor100Grams: doc.data()["protainsFor100Grams"],
+                type: doc.data()["type"]
             }
             return itemObj
         }
@@ -66,32 +78,54 @@ export const ProductValuesObject = async (productsNamesArray) => {
     return obj
 }
 
-
-export const LogicIndex = async (height, weight, gender, age, target, namesOfLikesProductsArray) => {
-
-    // calculate how many calories the body need to stay alive
-    const bmr = CalculateBmr(height, weight, gender, age)
-
-    // change the number of calories we calculate above by target 
-    const caloriesByTarget = ChangeCaloriesByTarget(bmr, target)
-
-    // calculate total carbohydrates,protains and fats we put in a menu
-    const totalQuantityForEachParentFoodObject = CalculateAmountOfFoodTypes(caloriesByTarget, weight)
-
-    // get the value of carbohydrates,protains,fats and calories of each product of likes foods
-    const productsParentFoodValues = await ProductValuesObject(namesOfLikesProductsArray)
-
-   
-    const productsQuantity = CalculateProductsQuantity(productsParentFoodValues, totalQuantityForEachParentFoodObject)
-    console.log(productsQuantity)
-
-
-
-
-
-
-
-    //const quantityForEachLikeProductObject = await DivideFoodTypesValuesToProducts(values, totalQuantityForEachParentFoodObject)
-    //const createMealsObject = CreateMeals(productsQuantity)
-    // return createMealsObject
+const CheckForMaxType = (carbohydrates, fats, protains) => {
+    if (carbohydrates > fats) {
+        if (carbohydrates > protains) {
+            return FoodTypes.carbohydrates
+        }
+        else {
+            return FoodTypes.protains
+        }
+    } else {
+        if (fats > protains) {
+            return FoodTypes.fats
+        } else {
+            return FoodTypes.protains
+        }
+    }
 }
+
+
+const CheckTotal = (meals, productsParentFoodValues, total) => {
+    let totalValues = {
+        carbohydrates: 0,
+        fats: 0,
+        protains: 0
+    }
+
+    for (let meal in meals) {
+        const mealObj = meals[meal]
+        for (let product in mealObj) {
+
+            const valueProduct = mealObj[product]
+            const carbohydrateValueFor100Grams = productsParentFoodValues[product]["carbohydratesFor100Grams"] / 100
+            const fatsValueFor100Grams = productsParentFoodValues[product]["fatsFor100Grams"] / 100
+            const protainsValuesFor100Grams = productsParentFoodValues[product]["protainsFor100Grams"] / 100
+            totalValues[FoodTypes.carbohydrates] = totalValues[FoodTypes.carbohydrates] + (carbohydrateValueFor100Grams * valueProduct)
+            totalValues[FoodTypes.fats] = totalValues[FoodTypes.fats] + (fatsValueFor100Grams * valueProduct)
+            totalValues[FoodTypes.protains] = totalValues[FoodTypes.protains] + (protainsValuesFor100Grams * valueProduct)
+        }
+    }
+
+
+    const carbohydratesDiff = Math.abs(total[FoodTypes.carbohydrates] - totalValues[FoodTypes.carbohydrates])
+    const fatsDiff = Math.abs(total[FoodTypes.fats] - totalValues[FoodTypes.fats])
+    const protainsDiff = Math.abs(total[FoodTypes.protains] - totalValues[FoodTypes.protains])
+
+    console.log(carbohydratesDiff, fatsDiff, protainsDiff)
+
+
+}
+
+
+

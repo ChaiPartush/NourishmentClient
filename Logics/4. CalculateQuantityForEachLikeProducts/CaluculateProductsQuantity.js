@@ -1,5 +1,5 @@
 import { cos, prod } from 'mathjs';
-import { FoodTypes } from '../../constants/Logics/FoodTypes'
+import { FoodTypes,calculatedFoodTypes } from '../../constants/Logics/FoodTypes'
 import { SolveMatrix } from './SolveEquationSystem'
 const SimpleSimplex = require('simple-simplex');
 
@@ -64,7 +64,6 @@ const CheckForMinType = (carbohydrates, fats, protains) => {
 }
 
 export const CalculateProductsQuantity = (productsFoodTypesValuesObject, totalgramsOfEachFoodType) => {
-
     let productsAndTheirQuantity = {}
 
     let sparatedProductsToFoodTypes = {
@@ -83,8 +82,8 @@ export const CalculateProductsQuantity = (productsFoodTypesValuesObject, totalgr
 
         // get values of carbohydrates,fats and protains for 100 grams of the product 
         const productFoodTypesvaluesFor100Grams = productsFoodTypesValuesObject[product]
-
         // put every value of carbohydrates,fats and protains in saperated variable
+    
         const carbohydratesFor100Grams = productFoodTypesvaluesFor100Grams["carbohydratesFor100Grams"]
         const fatsFor100Grams = productFoodTypesvaluesFor100Grams["fatsFor100Grams"]
         const protainsFor100Grams = productFoodTypesvaluesFor100Grams["protainsFor100Grams"]
@@ -139,7 +138,6 @@ export const CalculateProductsQuantity = (productsFoodTypesValuesObject, totalgr
     
     let extra = getExtraGramsFromAimTotalGramsOfEachFoodType(sparatedProductsToFoodTypes,totalgramsOfEachFoodType)
     let decreaseFromEachProduct = calculateHowManyToDecreaseFromEachProduct(extra,productsFoodTypesValuesObject,productsAndTheirQuantity)
-    
     if(decreaseFromEachProduct["value"]===true){
         decreaseFromEachProductResult =  decreaseFromEachProduct["result"]
     for (product in decreaseFromEachProductResult){
@@ -156,9 +154,9 @@ export const CalculateProductsQuantity = (productsFoodTypesValuesObject, totalgr
         productsAndTheirQuantity[product]=currentProductQuantity-countToDecrease 
     }
 
-    return productsAndTheirQuantity
+    return {result:true, value:productsAndTheirQuantity}
 }else{
-      return decreaseFromEachProduct["result"]
+      return {result:false , value:decreaseFromEachProduct["result"]}
 }
    
 
@@ -406,23 +404,22 @@ const calculateHowManyToDecreaseFromEachProduct = (extra,productsFoodTypesValues
       protains:extra[FoodTypes.protains],
       fats:extra[FoodTypes.fats]
   }
-  let found = {value:false}
 
   let productsAndQuntityToDecrease = {}
 
   for(let product in productsAndTheirQuantity){
     productsAndQuntityToDecrease[product]=0
   }
- 
-  const startTime = Date.now()
 
+ let stuckIndex = {value:0}
+  const startTime = Date.now()
 
   while(parseInt(Math.abs(extraObject[FoodTypes.carbohydrates]), 10)>0  || 
         parseInt(Math.abs(extraObject[FoodTypes.fats]), 10)>0 ||
         parseInt(Math.abs(extraObject[FoodTypes.protains]), 10)>0)
 {
        
-        if(Date.now()-startTime>15000){
+        if(Date.now()-startTime>10000){
             return {
                 value: false,
                 result: extraObject
@@ -434,6 +431,17 @@ const calculateHowManyToDecreaseFromEachProduct = (extra,productsFoodTypesValues
         let productsValues = ValuesOfFoodTypesByQuntityOfProduct(productsFoodTypesValuesObject,productGrmas["value"])
         let maxExtraFoodType = CheckForMainType(extraObject[FoodTypes.carbohydrates],extraObject[FoodTypes.fats],extraObject[FoodTypes.protains])
         let minExtraFoodType = CheckForMinType(extraObject[FoodTypes.carbohydrates],extraObject[FoodTypes.fats],extraObject[FoodTypes.protains])
+        
+        calculatedFoodTypes.forEach((value,index)=>{
+            if(value!==maxExtraFoodType && value!==minExtraFoodType){
+                middleFoodType=value
+            }
+        })
+        
+
+        const extraCarbohydrates = parseInt(Math.abs(extraObject[FoodTypes.carbohydrates]), 10)
+        const extraFats = parseInt(Math.abs(extraObject[FoodTypes.fats]), 10)
+        const extraProtains = parseInt(Math.abs(extraObject[FoodTypes.protains]), 10)
         for(product in productsValues){
             const productObject = productsValues[product]
             const carbohydrates = productObject[FoodTypes.carbohydrates]
@@ -442,12 +450,17 @@ const calculateHowManyToDecreaseFromEachProduct = (extra,productsFoodTypesValues
 
             const checkForMaxFoodType = CheckForMainType(carbohydrates,fats,protains)
             const checkForMinType = CheckForMinType(carbohydrates,fats,protains)
+            calculatedFoodTypes.forEach((value,index)=>{
+                if(value!==checkForMaxFoodType && value!==checkForMinType){
+                    checkForMiddleType=value
+                }
+            })
 
       
             if (extraObject[FoodTypes.carbohydrates]-carbohydrates>=-1  && extraObject[FoodTypes.fats]-fats>=-1 && extraObject[FoodTypes.protains]-protains>=-1)
             {
-                if(checkForMaxFoodType===maxExtraFoodType || checkForMinType===minExtraFoodType )
-                {
+                 if(checkForMaxFoodType===maxExtraFoodType || checkForMinType===minExtraFoodType )
+                 {
 
                    // check if we cnn decrease the value In productGrams variable 
                     if(productsAndTheirQuantity[product]-productGrmas["value"]>0)
@@ -458,38 +471,33 @@ const calculateHowManyToDecreaseFromEachProduct = (extra,productsFoodTypesValues
                          extraObject[FoodTypes.protains]= extraObject[FoodTypes.protains]-protains
                     
                          // and the amount we decrease to the result object 
-                         productsAndQuntityToDecrease[product]= productsAndQuntityToDecrease[product]+productGrmas["value"]
+                         productsAndQuntityToDecrease[product]= (productsAndQuntityToDecrease[product]+productGrmas["value"])
 
-                         found["value"]=true
+                         
                     }
                 }
             }
 
-            // else {
-            //     if((parseInt(Math.abs(extraObject[FoodTypes.carbohydrates]), 10)===0)&&
-            //        (parseInt(Math.abs(extraObject[FoodTypes.fats]), 10)===0)&&
-            //        (parseInt(Math.abs(extraObject[FoodTypes.protains]), 10)===0)
-            //     ){
-            //         if(fats<= extraObject[FoodTypes.fats] && protains<= extraObject[FoodTypes.protains]){
-
-            //         }
-            //     }
-            // }
 
 
         }
-
-    if(found["value"]===false){
-         if((productGrmas["value"]-(Math.pow(productGrmas["base"],productGrmas["power"]))===0)){
-              productGrmas["power"]=productGrmas["power"]-1
-         }
-         productGrmas["value"]=productGrmas["value"]-Math.pow(productGrmas["base"],productGrmas["power"])
-    }else{
-           found["value"]===false
-         }
-
+    const carbohydrateNum = parseInt(Math.abs(extraObject[FoodTypes.carbohydrates]), 10)
+    const fatsNum = parseInt(Math.abs(extraObject[FoodTypes.fats]), 10)
+    const protainsNum = parseInt(Math.abs(extraObject[FoodTypes.protains]), 10)
+    
+        if(carbohydrateNum===extraCarbohydrates || fatsNum===extraFats || protainsNum===extraProtains){
+            if(stuckIndex<5){
+                stuckIndex["value"]=stuckIndex["value"]+1
+            }else{
+                stuckIndex["value"]=0
+                if((productGrmas["value"]-(Math.pow(productGrmas["base"],productGrmas["power"]))===0)){
+                    productGrmas["power"]=productGrmas["power"]-1
+                    
+               }
+               productGrmas["value"]=Math.abs((productGrmas["value"]-(Math.pow(productGrmas["base"],productGrmas["power"]))))
+            }
+        }
   }
-   console.log(extra)
 
   return {
     value: true,

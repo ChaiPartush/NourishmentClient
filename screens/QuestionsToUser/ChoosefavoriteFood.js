@@ -15,16 +15,42 @@ import { CardChooseFood } from '../../components/QuestionsToUserScreensComponent
 import { FoodTypes } from '../../constants/Logics/FoodTypes'
 import { db } from '../../config';
 
+const ChangePage = (page) => {
+    if (page !== undefined) {
+        if (page === FoodTypes.carbohydrates) {
+            return 0
+        }
+        if (page === FoodTypes.protains) {
+            return 1
+        }
+        if (page === FoodTypes.fats) {
+            return 2
+        }
+        if (page === FoodTypes.vitamins) {
+            return 3
+        }
 
+    } else {
+        return 0
+    }
+}
 
 export const ChoosefavoriteFood = ({ route, navigation }) => {
-    const { chosenTarget, chosenGender, chosenHeight, chosenBirthday, chosenWeight, carbs } = route.params
-    const [currentPage, setCurrentPage] = useState(0);
+    const { chosenTarget, chosenGender, chosenHeight, chosenBirthday, chosenWeight, carbs, page } = route.params
+
+
+    const [currentPage, setCurrentPage] = useState(ChangePage(page));
     const [fatsItems, setFatsItems] = useState(null)
     const [carbohydratesItems, setCarbohydratesItems] = useState(carbs)
     const [protainsItems, setProtainsItems] = useState(null)
     const [favorite, setFavorite] = useState([])
     const [vitaminsItems, setVitaminsItems] = useState(null)
+
+
+    useEffect(() => {
+        const change = ChangePage(page)
+        setCurrentPage(change)
+    }, [page])
 
     const renderItems = (parentFood) => {
         let arr = []
@@ -233,14 +259,27 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         return (
             <View style={{ backgroundColor: '#E4D8DC' }}>
                 <NextArrow navigateToPageFunc={() => {
-                    currentPage !== 3 ? nextStep() : navigation.navigate('MainTabScreen', {
-                        chosenTarget: chosenTarget,
-                        chosenGender: chosenGender,
-                        chosenHeight: chosenHeight,
-                        chosenBirthday: chosenBirthday,
-                        chosenWeight: chosenWeight,
-                        chosenProducts: favorite
-                    })
+                   
+                    if (currentPage < 3) {
+                        nextStep()
+                    } else if (currentPage === 3 || page !== undefined) {
+                        navigation.navigate('MainTabScreen', {
+                            chosenTarget: chosenTarget,
+                            chosenGender: chosenGender,
+                            chosenHeight: chosenHeight,
+                            chosenBirthday: chosenBirthday,
+                            chosenWeight: chosenWeight,
+                            chosenProducts: favorite
+                        })
+                    }
+                    //    ( currentPage !== 3 )? nextStep() : navigation.navigate('MainTabScreen', {
+                    //         chosenTarget: chosenTarget,
+                    //         chosenGender: chosenGender,
+                    //         chosenHeight: chosenHeight,
+                    //         chosenBirthday: chosenBirthday,
+                    //         chosenWeight: chosenWeight,
+                    //         chosenProducts: favorite
+                    //     })
 
 
 

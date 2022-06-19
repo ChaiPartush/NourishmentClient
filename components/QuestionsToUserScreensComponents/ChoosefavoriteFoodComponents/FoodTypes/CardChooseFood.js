@@ -5,9 +5,26 @@ import * as Animatable from 'react-native-animatable'
 import { styles } from '../../../../Styles/QuestionsToUserStyles/ChooseFavoriteFoodStyle/FoodTypesStyle/ChooseCarbohydratesStyle'
 import { ICONS } from '../../../../constants/Icons'
 import { height, width } from '../../../../constants/ScreenDimentionConst';
+
+
+const ShowImage = ({ plant }) => {
+    if (plant.img !== "") {
+        return (
+            <View style={{ height: 100, alignItems: 'center', }}>
+                <Image source={{ uri: plant.img }} style={{ flex: 1, height: height * 0.3, width: width * 0.4, resizeMode: 'contain' }} />
+            </View>
+        )
+    } else {
+        return (
+            <View style={{ height: 100, alignItems: 'center', }}></View>
+        )
+    }
+}
 export const CardChooseFood = ({ plant, favoriteProducts }) => {
-    
+
+
     const [favorite, setFavorite] = useState(false);
+
     return (
         <Animatable.View animation={'bounceInRight'} duration={1000} style={[styles.cardContainer]}>
             <View style={[styles.cardIconContainer]}>
@@ -25,9 +42,16 @@ export const CardChooseFood = ({ plant, favoriteProducts }) => {
             </View>
 
             <View style={{ alignItems: 'stretch' }}>
-                <View style={{ height: 100, alignItems: 'center', }}>
+
+                <ShowImage plant={plant} />
+
+                {/* <View style={{ height: 100, alignItems: 'center', }}>
+
+
                     <Image source={{ uri: plant.img }} style={{ flex: 1, height: height * 0.3, width: width * 0.4, resizeMode: 'contain' }} />
-                </View>
+
+
+                </View> */}
 
                 <Text style={{ fontWeight: 'bold', fontSize: 17, textAlign: 'center', marginTop: 15 }}>{plant.name}</Text>
 

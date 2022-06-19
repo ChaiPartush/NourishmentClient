@@ -754,7 +754,6 @@ const CheckForValuesOfFreeValThatCauseToDependedBeZero = (dependedArray) => {
     const solveNewMatrix = EquationSystemSolver(newMatrix)
     const solveMatrixWithValuesInFreeVaribles = putValuesInstedOfFreeVaribles(solveNewMatrix, 50, 200)
     const valueToEachVariable = CalculateValuesOfVaribles(solveMatrixWithValuesInFreeVaribles)
-    console.log(valueToEachVariable)
     return valueToEachVariable
 
 
@@ -964,7 +963,7 @@ const GetNumOfFreeVar = (solveMatrix) => {
             }
         }
 
-        console.log(valueOfVariables)
+        // console.log(valueOfVariables)
 
 
 
