@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View, Text, Image } from 'react-native'
 import { COLORS } from '../../../../constants/Colors'
 import * as Animatable from 'react-native-animatable'
@@ -20,10 +20,16 @@ const ShowImage = ({ plant }) => {
         )
     }
 }
-export const CardChooseFood = ({ plant, favoriteProducts }) => {
+export const CardChooseFood = ({ plant, favoriteProducts, isFavorite }) => {
 
 
     const [favorite, setFavorite] = useState(false);
+
+    useEffect(() => {
+        if (isFavorite === true) {
+            setFavorite(true)
+        }
+    }, [isFavorite])
 
     return (
         <Animatable.View animation={'bounceInRight'} duration={1000} style={[styles.cardContainer]}>

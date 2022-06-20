@@ -36,8 +36,7 @@ const ChangePage = (page) => {
 }
 
 export const ChoosefavoriteFood = ({ route, navigation }) => {
-    const { chosenTarget, chosenGender, chosenHeight, chosenBirthday, chosenWeight, carbs, page } = route.params
-
+    const { chosenTarget, chosenGender, chosenHeight, chosenBirthday, chosenWeight, carbs, page, chosenProducts } = route.params
 
     const [currentPage, setCurrentPage] = useState(ChangePage(page));
     const [fatsItems, setFatsItems] = useState(null)
@@ -51,6 +50,17 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         const change = ChangePage(page)
         setCurrentPage(change)
     }, [page])
+
+    useEffect(() => {
+        if (chosenProducts !== undefined) {
+            chosenProducts.forEach((value,index)=>{
+                let newArr = []
+                newArr = favorite.slice()
+                newArr.push(value)
+                setFavorite(newArr)
+            })
+        }
+    }, [chosenProducts])
 
     const renderItems = (parentFood) => {
         let arr = []
@@ -200,24 +210,29 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                 renderItem={({ item }) => {
                     return (
                         <Animatable.View animation={'bounceInRight'} duration={1000} style={{ backgroundColor: "white", marginTop: height * 0.02 }}>
-                            < CardChooseFood plant={item} favoriteProducts={(value) => {
 
-                                if (value["type"] === true) {
-                                    const name = value["name"]
-                                    let newArr = []
-                                    newArr = favorite.slice()
-                                    newArr.push(name)
-                                    setFavorite(newArr)
+                            < CardChooseFood
+                                plant={item}
+                                favoriteProducts={(value) => {
 
-                                } else if (value["type"] === false) {
-                                    const name = value["name"]
-                                    let newArr = []
-                                    newArr = favorite.slice()
-                                    const itemIndex = newArr.indexOf(name)
-                                    newArr.splice(itemIndex, 1)
-                                    setFavorite(newArr)
-                                }
-                            }} />
+                                    if (value["type"] === true) {
+                                        const name = value["name"]
+                                        let newArr = []
+                                        newArr = favorite.slice()
+                                        newArr.push(name)
+                                        setFavorite(newArr)
+
+                                    } else if (value["type"] === false) {
+                                        const name = value["name"]
+                                        let newArr = []
+                                        newArr = favorite.slice()
+                                        const itemIndex = newArr.indexOf(name)
+                                        newArr.splice(itemIndex, 1)
+                                        setFavorite(newArr)
+                                    }
+                                }}
+                                isFavorite={favorite.includes(item["name"])}
+                            />
 
                         </Animatable.View>)
                 }
@@ -259,7 +274,7 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         return (
             <View style={{ backgroundColor: '#E4D8DC' }}>
                 <NextArrow navigateToPageFunc={() => {
-                   
+
                     if (currentPage < 3) {
                         nextStep()
                     } else if (currentPage === 3 || page !== undefined) {
