@@ -33,7 +33,25 @@ export const LogicIndex = async (height, weight, gender, age, target, namesOfLik
         // if success to get quantity of each product by food types values order it by number of meals and
         // precent of each meal from total calories  
         meals = CreateMenuMealsByNumberOfMeals(productsQuantity["value"], { 1: 25, 2: 25, 3: 25, 4: 25 }, productsParentFoodValues.current)
-        CheckTotal(meals, productsParentFoodValues.current, totalQuantityForEachParentFoodObject)
+        let totalDiff = CheckTotal(meals, productsParentFoodValues.current, totalQuantityForEachParentFoodObject)
+        const checkForMaxType = CheckForMaxType(totalDiff[FoodTypes.carbohydrates], totalDiff[FoodTypes.fats], totalDiff[FoodTypes.protains])
+
+        // while (Math.abs(totalDiff[FoodTypes.carbohydrates] > 2) || Math.abs(totalDiff[FoodTypes.fats] > 2) || Math.abs(totalDiff[FoodTypes.protains] > 2)) {
+        // for (let meal in meals) {
+        //     const mealDescription = meals[meal]
+        //     for (let product in mealDescription) {
+        //         let value = mealDescription[product]
+        //         const productType = productsParentFoodValues.current[product]["type"]
+        //         if (productType === checkForMaxType && value > 5) {
+        //             meals[meal][product] = meals[meal][product] - 1
+        //             totalDiff = CheckTotal(meals, productsParentFoodValues.current, totalQuantityForEachParentFoodObject)
+        //         }
+        //     }
+        // }
+        // }
+
+
+
         // create meals object to string 
         const mealsJson = JSON.stringify(meals)
         // return meals 
@@ -64,6 +82,7 @@ const getProductObject = async (productName) => {
                 protainsFor100Grams: doc.data()["protainsFor100Grams"],
                 type: doc.data()["type"]
             }
+            console.log(itemObj)
             return itemObj
         }
     }
@@ -123,6 +142,14 @@ const CheckTotal = (meals, productsParentFoodValues, total) => {
     const protainsDiff = Math.abs(total[FoodTypes.protains] - totalValues[FoodTypes.protains])
 
     console.log(carbohydratesDiff, fatsDiff, protainsDiff)
+
+    return {
+        carbohydrates: carbohydratesDiff,
+        fats: fatsDiff,
+        protains: protainsDiff
+    }
+
+
 
 
 }

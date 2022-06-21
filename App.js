@@ -28,7 +28,7 @@ export default App = (props) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [useName, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [start, setStart] = useState(false)
+  const [start, setStart] = useState(true)
   const [startDelete, setStartDelete] = useState(false)
   const [startChangeDocName, setStartChangeDocName] = useState(false)
 
@@ -37,24 +37,24 @@ export default App = (props) => {
     AddItem(
 
       // food type name 
-      FoodTypes.protains,
+      FoodTypes.carbohydrates,
 
       // name of product 
-      'cottage cheese tnuva 5% fat',
+      'oats',
 
       // properties object
       {
-        id: 10, // number increase
-        caloriesFor100Grams: 95,  // number-kcal - kilo caories
-        carbohydratesFor100Grams: 1.5,  // number-grams 
-        fatsFor100Grams: 5, // number-grams
-        name: 'cottage cheese tnuva 5% fat', // string - english name of product 
-        protainsFor100Grams: 11, //numer- grams
-        type: FoodTypes.protains, //  string -foodtype
+        id: 3, // number increase
+        caloriesFor100Grams: 389,  // number-kcal - kilo caories
+        carbohydratesFor100Grams: 66.3,  // number-grams 
+        fatsFor100Grams: 6.9, // number-grams
+        name: 'oats', // string - english name of product 
+        protainsFor100Grams: 16.9, //numer- grams
+        type: FoodTypes.carbohydrates, //  string -foodtype
         englishMeasuringToolsObjectAndGramsForOneMeasure: [], // array of measurings and gram for one from it  
         hebrewMeasuringToolsObjectAndGramsForOneMeasure: [], // // array of measurings and gram for one from it  
-        hebrewName: 'גבינת קוטג 5% של תנובה', //string
-        sourceOfInformation: 'https://www.foodsdictionary.co.il/Products/5/%D7%A7%D7%95%D7%98%D7%92%2560%20%D7%AA%D7%A0%D7%95%D7%91%D7%94%205%25', //  url of product 
+        hebrewName: 'שיבולת שועל', //string
+        sourceOfInformation: 'https://fdc.nal.usda.gov/fdc-app.html#/food-details/169705/nutrients', //  url of product 
         englishCategory: '',
         hebrewCategory: '',
         image:   // string - base 64 of image
@@ -63,7 +63,7 @@ export default App = (props) => {
   }
 
   if (startDelete === true) {
-    DeleteItem(FoodTypes.protains, 'peanuts')
+    DeleteItem(FoodTypes.protains, 'oats')
   }
 
   if (startChangeDocName === true) {

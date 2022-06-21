@@ -11,13 +11,14 @@ export const CreateMenuMealsByNumberOfMeals = (productsAndThierQuantity, numberO
         numberOfMealAndPrecentOfCaloriesInEachMeal,
     )
 
-    
+
 
     for (let meal in meals) {
         let mealProduct = meals[meal]
         for (let product in mealProduct) {
             let procductAmount = mealProduct[product]
-            let roundedProductAmount = Math.round(procductAmount)
+            //let roundedProductAmount = Math.round(procductAmount)
+            let roundedProductAmount = parseInt(procductAmount, 10)
             meals[meal][product] = roundedProductAmount
         }
     }

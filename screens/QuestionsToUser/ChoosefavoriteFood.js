@@ -26,9 +26,9 @@ const ChangePage = (page) => {
         if (page === FoodTypes.fats) {
             return 2
         }
-        if (page === FoodTypes.vitamins) {
-            return 3
-        }
+        // if (page === FoodTypes.vitamins) {
+        //     return 3
+        // }
 
     } else {
         return 0
