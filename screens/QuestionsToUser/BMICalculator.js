@@ -64,32 +64,23 @@ export const BMICalculator = ({ route, navigation }) => {
         )
     }
 
+
     return (
         <SafeAreaView style={{ flexDirection: 'column', flex: 1 }}>
-
             <View style={{ backgroundColor: '#87AAAA', height: 220 }}>
                 {createBackArrowView()}
                 <StatusBar translucent={false} backgroundColor={'#87AAAA'} />
                 {createQuestionText()}
             </View>
-
             <View style={{ flex: 1, flexDirection: 'column', marginTop: -110 }} >
-
                 <RenderGenderTypes gender={(value) => setGender(value)} />
-
                 <View style={{ flexDirection: 'row', flex: 1, borderRadius: 10 }}>
                     <SelectHeight chosenHeight={(value) => setHeight(value)} />
                     <SelectBirthday birthday={(value) => setBirthday(value)} />
                 </View>
-
                 <SelectWeight selectedWeight={(value) => setWeight(value)} />
-
             </View>
             {createNextArrowView()}
-
-
-
-
         </SafeAreaView >
 
 

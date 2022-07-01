@@ -1,13 +1,13 @@
-import { ConstantNodeDependencies } from 'mathjs'
-import { FoodTypesCalories } from '../../constants/Logics/FoodTypesClories'
+// Explain object of number of calories for one gram of each parent food 
+import { ParentFoodCalories } from '../../constants/Logics/FoodTypesClories'
 
 export const CalculateAmountOfFoodTypes = (totalCalories, weight) => {
     const protainsAmount = weight * 1.8
-    const protainsCalories = protainsAmount * FoodTypesCalories.protain
+    const protainsCalories = protainsAmount * ParentFoodCalories.protain
     const fatsAmount = weight
-    const fatCalories = fatsAmount * FoodTypesCalories.fat
+    const fatCalories = fatsAmount * ParentFoodCalories.fat
     const carbohydrateCalories = totalCalories - (protainsCalories + fatCalories)
-    const carbohydrateAmount = carbohydrateCalories / FoodTypesCalories.carbohydrate
+    const carbohydrateAmount = carbohydrateCalories / ParentFoodCalories.carbohydrate
 
 
 

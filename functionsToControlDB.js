@@ -28,3 +28,23 @@ export const UpdateDocName = (foodType, curentDocName, newDocName) => {
 
 }
 
+export const getProductObject = async (productName) => {
+    for (let foodType in FoodTypes) {
+        const parentFoodString = "/foodType_" + foodType
+        const item = db.collection(parentFoodString).doc(productName)
+        const doc = await item.get()
+        if (doc.exists) {
+            const itemObj = {
+                caloriesFor100Grams: doc.data()["caloriesFor100Grams"],
+                carbohydratesFor100Grams: doc.data()["carbohydratesFor100Grams"],
+                fatsFor100Grams: doc.data()["fatsFor100Grams"],
+                name: doc.data()["name"],
+                protainsFor100Grams: doc.data()["protainsFor100Grams"],
+                type: doc.data()["type"]
+            }
+            console.log(itemObj)
+            return itemObj
+        }
+    }
+}
+

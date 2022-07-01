@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native'
+import { View, TextInput, ImageBackground, Button, Text, StyleSheet } from 'react-native'
 import * as Font from 'expo-font'
 import { MainControlScreen } from './screens/ControlMovingBetweenScreens/MainControlScreen'
 import { ChooseTarget } from './screens/QuestionsToUser/ChooseTarget';
@@ -17,11 +17,15 @@ import { doc, getDoc } from "firebase/firestore";
 import { snapPoint } from 'react-native-redash';
 import { AddItem, UpdateItemFields, DeleteItem, UpdateDocName } from './functionsToControlDB';
 import { FoodTypes } from './constants/Logics/FoodTypes';
+import { width } from './constants/ScreenDimentionConst';
 const getFonts = () => Font.loadAsync({
   'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
   'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
   'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
   'Poppins-Black': require('./assets/fonts/Poppins-Black.ttf'),
+  'VarelaRound-Regular': require('./assets/fonts/VarelaRound-Regular.ttf'),
+  'Fredoka-Regular': require('./assets/fonts/Fredoka-Regular.ttf')
+
 })
 
 export default App = (props) => {
@@ -92,8 +96,9 @@ export default App = (props) => {
 
       //   <Button title='submit data' onPress={create}></Button>
       // </View>
-
-      <RootStackScreen />
+      // <ImageBackground source={require('./assets/shapesBackground.jpg')} resizeMode={"cover"} style={{ width: width }}>
+        <RootStackScreen />
+      // </ImageBackground>
       // <MenuScreen />
       // <ChoosefavoriteFood />
 
