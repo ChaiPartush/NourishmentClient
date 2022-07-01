@@ -3,14 +3,15 @@ import { View, Text } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import * as Animatable from 'react-native-animatable'
 import { styles } from '../../../Styles/QuestionsToUserStyles/BmiComponentsStyle/SelectHeightStyle'
-import { COLORS } from '../../../constants/Colors'
+import { Colors } from '../../../colors'
+import { width, height } from '../../../constants/ScreenDimentionConst'
 
 export const SelectHeight = ({ chosenHeight }) => {
-    const [height, setHeight] = useState(100);
+    const [userHeight, setHeight] = useState(100);
     const renderSlider = () => {
         return (
             <MultiSlider
-                value={parseFloat(height)}
+                value={parseFloat(userHeight)}
                 min={100.0}
                 max={220.0}
                 vertical={true}
@@ -29,25 +30,45 @@ export const SelectHeight = ({ chosenHeight }) => {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.columnstyle}>
+        // <View style={{
+        //     backgroundColor: '#D5EEFF',
 
-                <Text style={styles.titleText}>HEIGHT</Text>
+        //     alignItems: 'center',
+        //     // marginLeft: 5,
+        //     borderRadius: 40,
+        //     // elevation: 12
+        // }}>
+        <View style={{
+            backgroundColor: '#d6ced8',
+            alignItems: 'center',
+            borderRadius: 60,
+            flexDirection: 'column',
+            height: height * 0.2,
+            width: width * 0.45,
+            alignItems: 'center',
+        }}>
 
-                <Animatable.View style={styles.sliderAndTextNumber}>
+            <Text style={{ fontSize: height*0.021, color: '#8D8E98', fontWeight: 'bold', fontFamily: "Fredoka-Regular", }}>גובה</Text>
 
-                    <View style={styles.slider}>{renderSlider()}</View>
+            {/* <Animatable.View style={{ marginTop: 50 }}>
 
-                    <View style={styles.heightNumberAndCentimeterContainer}>
-                        <Text style={styles.heightNumberText}>{height.toString()}</Text>
-                        <Text style={styles.cetimeterText}>cm</Text>
+                    <View style={{ marginRight: 100 }}>{renderSlider()}</View>
+
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'baseline',
+                        marginTop: -50,
+                        marginLeft: 110
+                    }}>
+                        <Text style={{ fontSize: 50, fontWeight: 'bold', color: '#8F4068' }}>{height.toString()}</Text>
+                        <Text style={{ fontSize: 18, color: '#8D8E98', marginTop: 10 }}>cm</Text>
                     </View>
 
-                </Animatable.View>
-
-            </View>
+                </Animatable.View> */}
 
         </View>
+
+        // </View>
     )
 
 }

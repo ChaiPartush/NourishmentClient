@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StatusBar, Text } from 'react-native';
+import { View, SafeAreaView, StatusBar, Text, Dimensions } from 'react-native';
 import { NextArrow } from '../../components/ArrowsComponents/NextArrow';
 import { BackArrow } from '../../components/ArrowsComponents/BackArrow';
 import { RenderGenderTypes } from '../../components/QuestionsToUserScreensComponents/BMIComponents/SelectGender/RenderGenderTypes'
@@ -7,13 +7,16 @@ import { SelectHeight } from '../../components/QuestionsToUserScreensComponents/
 import { SelectBirthday } from '../../components/QuestionsToUserScreensComponents/BMIComponents/SelectBirthday'
 import { SelectWeight } from '../../components/QuestionsToUserScreensComponents/BMIComponents/SelectWeight'
 import { db } from '../../config';
+import { Colors } from '../../colors';
 import { FoodTypes } from '../../constants/Logics/FoodTypes';
+const { height, width } = Dimensions.get("window")
+
 
 export const BMICalculator = ({ route, navigation }) => {
     const { targetName } = route.params
 
     const [gender, setGender] = useState(null)
-    const [height, setHeight] = useState(null)
+    const [userHeight, setUserHeight] = useState(null)
     const [birthday, setBirthday] = useState(null)
     const [weight, setWeight] = useState(null)
     const [carbs, setCarbs] = useState([])
@@ -65,23 +68,121 @@ export const BMICalculator = ({ route, navigation }) => {
     }
 
 
+    // Explain row below - 
+    // -- create text that show in top of the page 
+    const Header = () => {
+        return (
+            <View style={{ marginTop: height * 0.07 }}>
+                <Text style={{
+                    fontFamily: "Fredoka-Regular",
+                    fontSize: height * 0.035,
+                    textAlign: 'center',
+                    color: '#224854',
+                }}>  אחרי שבחרנו מטרה   </Text>
+
+                <Text style={{
+                    fontFamily: "Fredoka-Regular",
+                    fontSize: height * 0.04,
+                    textAlign: 'center',
+                    color: '#224854',
+                    fontWeight: 'bold'
+                }}> בואו נבין את מצב הגוף </Text>
+
+            </View>
+        )
+    }
+
+
     return (
-        <SafeAreaView style={{ flexDirection: 'column', flex: 1 }}>
-            <View style={{ backgroundColor: '#87AAAA', height: 220 }}>
-                {createBackArrowView()}
-                <StatusBar translucent={false} backgroundColor={'#87AAAA'} />
-                {createQuestionText()}
-            </View>
-            <View style={{ flex: 1, flexDirection: 'column', marginTop: -110 }} >
+        /* Explain row below - container that we put inside it all the components in page  */
+
+
+        < View style={{
+            backgroundColor: Colors.lightBlue,
+            flexDirection: 'column',
+            flex: 1,
+            alignItems: 'center'
+        }
+        }>
+
+
+            {/* Explain row below - text in the top of page*/}
+            <Header />
+
+            {/* Explain row below - container of birthday,height,weight and gender cards*/}
+            <View style={{
+                flexDirection: 'column',
+                flex: 1,
+                backgroundColor: '#5a8693',
+                borderTopLeftRadius: 100,
+                borderTopRightRadius: 70,
+                width: width * 1.2,
+                marginTop: 20,
+                height: height * 0.45,
+                borderTopWidth: 4,
+                borderBottomWidth: 4,
+                borderColor: '#ffffff',
+                borderBottomLeftRadius: 100,
+                borderBottomRightRadius: 70,
+            }}>
+
+                {/* Explain row below - gender row caeds*/}
                 <RenderGenderTypes gender={(value) => setGender(value)} />
-                <View style={{ flexDirection: 'row', flex: 1, borderRadius: 10 }}>
-                    <SelectHeight chosenHeight={(value) => setHeight(value)} />
-                    <SelectBirthday birthday={(value) => setBirthday(value)} />
+
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    margin:10,
+                    // width:width*0.98,
+                }}>
+                    <SelectHeight chosenHeight={(value) => setUserHeight(value)} />
+                    {/* <SelectBirthday birthday={(value) => setBirthday(value)} /> */}
                 </View>
-                <SelectWeight selectedWeight={(value) => setWeight(value)} />
+
+
+
+
+
+
+
+
+
+
+
+
             </View>
-            {createNextArrowView()}
-        </SafeAreaView >
+
+            <View style={{
+                height: 0.1 * height,
+                backgroundColor: Colors.lightBlue,
+                alignItems: 'flex-end',
+                justifyContent: 'center'
+            }}>
+
+            </View>
+
+
+
+
+
+        </View >
+        // <SafeAreaView style={{ flexDirection: 'column', flex: 1 }}>
+        //     <View style={{ backgroundColor: '#87AAAA', height: 220 }}>
+        //         {createBackArrowView()}
+        //         <StatusBar translucent={false} backgroundColor={'#87AAAA'} />
+        //         {createQuestionText()}
+        //     </View>
+        //     <View style={{ flex: 1, flexDirection: 'column', marginTop: -110 }} >
+        //         <RenderGenderTypes gender={(value) => setGender(value)} />
+        //         <View style={{ flexDirection: 'row', flex: 1, borderRadius: 10 }}>
+        //             <SelectHeight chosenHeight={(value) => setHeight(value)} />
+        //             <SelectBirthday birthday={(value) => setBirthday(value)} />
+        //         </View>
+        //         <SelectWeight selectedWeight={(value) => setWeight(value)} />
+        //     </View>
+        //     {createNextArrowView()}
+        // </SafeAreaView >
 
 
     )
