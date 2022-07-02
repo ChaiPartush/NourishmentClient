@@ -76,11 +76,12 @@ export const SelectHeight = ({ chosenHeight }) => {
     const [scrollY, setScrollY] = useState(new Animated.Value(0))
     let scrollViewRef = React.createRef()
     let textInputRef = React.createRef()
+    let heightRef = React.useRef(100)
     const [userHeight, setHeight] = useState(100);
     const renderSlider = () => {
         return (
             <MultiSlider
-                value={parseFloat(userHeight)}
+                value={parseFloat(heightRef)}
                 min={100}
                 max={301}
                 vertical={true}
@@ -89,21 +90,23 @@ export const SelectHeight = ({ chosenHeight }) => {
                 trackStyle={{ height: 8, borderRadius: 8, backgroundColor: Colors.lightGray2 }}
                 touchDimensions={{ borderRadius: 100 }}
                 sliderLength={height * 0.15}
-                step={0.1}
+                step={0.5}
                 customMarker={(e) => {
                     return (<View style={{
-                        height: 30,
-                        width: 30,
+                        height: 25,
+                        width: 25,
                         bottom: -height * 0.005,
                         borderRadius: 18,
-                        borderWidth: 3,
+                        borderWidth: 1,
                         borderColor: '#FEF1E6',
                         backgroundColor: '#224854',
                     }}></View>)
                 }}
+
                 onValuesChange={(value) => {
                     setHeight(Math.round(value))
-                    chosenHeight(Math.round(value))
+                   // chosenHeight(Math.round(value))
+                    
                 }}
             />
         )
@@ -223,8 +226,8 @@ export const SelectHeight = ({ chosenHeight }) => {
                     top: height * 0.03
 
                 }}>
-                    <Text style={{fontFamily: "Fredoka-Regular" , fontSize: height * 0.02, color: '#8D8E98', marginTop: 10,right:6 }}>ס"מ</Text>
-                    <Text style={{ fontFamily: "Fredoka-Regular",fontSize: height * 0.06, fontWeight: 'bold',  color: '#224854' }}>{userHeight.toString()}</Text>
+                    <Text style={{ fontFamily: "Fredoka-Regular", fontSize: height * 0.02, color: '#8D8E98', marginTop: 10, right: 6 }}>ס"מ</Text>
+                    <Text style={{ fontFamily: "Fredoka-Regular", fontSize: height * 0.06, fontWeight: 'bold', color: '#224854' }}>{userHeight.toString()}</Text>
 
                 </View>
 

@@ -134,6 +134,7 @@ export const BMICalculator = ({ route, navigation }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     margin:10,
+                    marginTop:17
                     // width:width*0.98,
                 }}>
                     <SelectHeight chosenHeight={(value) => setUserHeight(value)} />
