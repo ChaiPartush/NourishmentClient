@@ -12,29 +12,34 @@ export const RenderGenderTypes = ({ gender }) => {
             justifyContent: 'center',
             alignItems: 'center',
             marginTop: height * 0.017,
-            
+
+
+
         }}>
+            <View style={{ opacity: selected === 'זכר' || selected == null ? 1 : 0.5 }}>
+                <GenderCard
+                    iconName='male'
+                    title={'זכר'}
+                    onpress={(value) => {
+                        setSelected(value)
+                        gender(value)
 
-            <GenderCard
-                iconName='male'
-                title={'זכר'}
-                onpress={(value) => {
-                    setSelected(value)
-                    gender(value)
+                    }}
+                    value={selected}
+                />
+            </View>
 
-                }}
-                value={selected}
-            />
-
-            <GenderCard
-                iconName='female'
-                title={'נקבה'}
-                onpress={(value) => {
-                    setSelected(value)
-                    gender(value)
-                }}
-                value={selected}
-            />
+            <View style={{ opacity: selected === 'נקבה' || selected == null ? 1 : 0.5 }}>
+                <GenderCard
+                    iconName='female'
+                    title={'נקבה'}
+                    onpress={(value) => {
+                        setSelected(value)
+                        gender(value)
+                    }}
+                    value={selected}
+                />
+            </View>
 
         </View>
     )
