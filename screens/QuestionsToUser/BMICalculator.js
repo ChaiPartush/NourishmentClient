@@ -136,8 +136,8 @@ export const BMICalculator = ({ route, navigation }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     // margin: 20,
-                    top:height*0.024,
-                    marginTop: 17,
+                    top:height*0.023,
+                    marginTop: 20,
 
                     // width:width*0.98,
                 }}>
@@ -148,7 +148,7 @@ export const BMICalculator = ({ route, navigation }) => {
                     <SelectBirthday birthday={(value) => setBirthday(value)} />
                 </View>
                 
-                <View style={{marginTop:height*0.08}}>
+                <View style={{marginTop:height*0.06}}>
                     <SelectWeight selectedWeight={(value) => setWeight(value)} />
                 </View>
 

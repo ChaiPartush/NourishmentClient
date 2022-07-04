@@ -65,7 +65,7 @@ export const SelectBirthday = ({ birthday }) => {
 
             alignItems: 'center',
             backgroundColor: '#d6ced8',
-            height: height * 0.17,
+            height: height * 0.21,
             width: width * 0.45,
             borderRadius: 40,
 
@@ -87,12 +87,13 @@ export const SelectBirthday = ({ birthday }) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <FontAwsome name="calendar" color={'#224854'} size={height * 0.05} style={{ margin:2,right:7 }} />
                         <Text style={{
+                            fontFamily: "Fredoka-Regular",
                             // marginLeft: 20,
                             marginTop: 8,
                             alignItems: 'center',
-                            fontFamily: "Fredoka-Regular",
-                            fontSize: height * 0.024,
-                            fontWeight: '300',
+                            
+                            fontSize: height * 0.027,
+                             fontWeight: 'bold',
                             color: '#224854'
                         }}>{text}</Text>
                     </View>

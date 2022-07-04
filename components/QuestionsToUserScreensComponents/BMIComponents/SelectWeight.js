@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { width, height } from '../../../constants/ScreenDimentionConst'
 import { COLORS } from '../../../constants/Colors';
+import AwesomeButton from "react-native-really-awesome-button"
 import { styles } from '../../../Styles/QuestionsToUserStyles/BmiComponentsStyle/SelectWeightStyle'
 
 export const SelectWeight = ({ selectedWeight }) => {
@@ -54,6 +55,7 @@ export const SelectWeight = ({ selectedWeight }) => {
             // flex: 1,
             // height: height * 0.21,
             width: width * 0.95,
+            height: height * 0.16
             // alignItems: 'center',
             // justifyContent:'center'
         }}>
@@ -90,17 +92,85 @@ export const SelectWeight = ({ selectedWeight }) => {
                     <Text style={{
                         fontSize: height * 0.021, color: '#8D8E98', fontWeight: 'bold', fontFamily: "Fredoka-Regular", left: width * 0.05
                     }}>משקל</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'baseline', left: width * 0.03, top: height * 0.008 }}>
-                        <Text style={{
-                            fontFamily: "Fredoka-Regular", fontSize: height * 0.02, color: '#8D8E98', marginTop: 10, right: 6
-                        }}>ק"ג</Text>
-                        <Text style={{
-                            fontFamily: "Fredoka-Regular", fontSize: height * 0.06, fontWeight: 'bold', color: '#224854'
-                        }}>{parseFloat(weight).toFixed(1).toString()}</Text>
+                        <AwesomeButton
+                            type="facebook"
+                            onPress={() => setWeight(weight - 0.1)}
+                            width={width * 0.16}
+                            height={height * 0.034}
+                            borderRadius={12}
+                            backgroundColor={'#d6ced8'}
+                            backgroundDarker={'#5a8693'}
+                            borderColor={'#d6ced8'}
+                            borderWidth={2}
+                            raiseLevel={1}
+                            style={{ left: 1, top: 24 }}
+                        >
+                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
+                                {/* <AntDesign
+                        style={{}}
+                        name="twitter"
+                        size={height * 0.06}
+                        color="white"
+                    /> */}
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <Text style={{ top: 1, left: 3, color: '#224854', fontFamily: "Fredoka-Regular", fontSize: height * 0.016 }}>   ק"ג 0.1 - </Text>
 
+
+
+                                </View>
+
+                            </View>
+
+
+
+                        </AwesomeButton>
+                        <View style={{ flexDirection: 'row', alignItems: 'baseline', left: width * 0.04, top: height * 0.008 }}>
+
+
+                            <Text style={{
+                                fontFamily: "Fredoka-Regular", fontSize: height * 0.02, color: '#8D8E98', marginTop: 10, right: 6
+                            }}>ק"ג</Text>
+                            <Text style={{
+                                fontFamily: "Fredoka-Regular", fontSize: height * 0.06, fontWeight: 'bold', color: '#224854'
+                            }}>{parseFloat(weight).toFixed(1).toString()}</Text>
+
+                        </View>
+
+                        <AwesomeButton
+                            type="facebook"
+                            onPress={() => setWeight(weight + 0.1)}
+                            width={width * 0.16}
+                            height={height * 0.034}
+                            borderRadius={12}
+                            backgroundColor={'#d6ced8'}
+                            backgroundDarker={'#5a8693'}
+                            borderColor={'#d6ced8'}
+                            borderWidth={2}
+                            raiseLevel={1}
+                            style={{ left: 40, top: 24 }}
+                        >
+                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
+                                {/* <AntDesign
+                        style={{}}
+                        name="twitter"
+                        size={height * 0.06}
+                        color="white"
+                    /> */}
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <Text style={{ top: 1, left: 3, color: '#224854', fontFamily: "Fredoka-Regular", fontSize: height * 0.016 }}>   ק"ג 0.1 + </Text>
+
+
+
+                                </View>
+
+                            </View>
+
+
+
+                        </AwesomeButton>
                     </View>
-
                     <View style={{
                         // flexDirection: 'row',
                         // alignItems: 'center'
