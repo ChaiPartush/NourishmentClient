@@ -15,8 +15,8 @@ export const GenderCard = ({ iconName, title, onpress, value }) => {
 
             borderColor: (value === title) ? Colors.lightBlue : '#F6D7A7',
             borderWidth: (value === title) ? 4 : 0,
-            width: width * 0.4,
-            height: height * 0.2,
+            width: width * 0.35,
+            height: height * 0.18,
             borderRadius: 100,
             margin: 13
         }}
@@ -28,7 +28,7 @@ export const GenderCard = ({ iconName, title, onpress, value }) => {
                 margin: (4 * height) / 100
             }}>
 
-                <Fontisto name={iconName} color='#4B6587' size={80.0} />
+                <Fontisto name={iconName} color='#4B6587' size={height*0.07} />
                 <Text style={{
                     fontFamily: "Fredoka-Regular",
                     fontSize: 18,

@@ -12,6 +12,8 @@ import { FoodTypes } from '../../constants/Logics/FoodTypes';
 const { height, width } = Dimensions.get("window")
 
 
+
+
 export const BMICalculator = ({ route, navigation }) => {
     const { targetName } = route.params
 
@@ -133,13 +135,25 @@ export const BMICalculator = ({ route, navigation }) => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    margin:10,
-                    marginTop:17
+                    // margin: 20,
+                    top:height*0.024,
+                    marginTop: 17,
+
                     // width:width*0.98,
                 }}>
-                    <SelectHeight chosenHeight={(value) => setUserHeight(value)} />
-                    {/* <SelectBirthday birthday={(value) => setBirthday(value)} /> */}
+                    <View style={{ marginRight: width * 0.03 }}>
+                        <SelectHeight chosenHeight={(value) => setUserHeight(value)} />
+                    </View>
+
+                    <SelectBirthday birthday={(value) => setBirthday(value)} />
                 </View>
+                
+                <View style={{marginTop:height*0.08}}>
+                    <SelectWeight selectedWeight={(value) => setWeight(value)} />
+                </View>
+
+
+
 
 
 

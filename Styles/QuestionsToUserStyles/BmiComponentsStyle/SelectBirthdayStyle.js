@@ -4,7 +4,7 @@ import { width, height } from '../../../constants/ScreenDimentionConst'
 export const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        backgroundColor: '#D5EEFF',
+        backgroundColor: '#d6ced8',
         width: (width * 47) / 100,
         marginLeft: (width * 2) / 100,
         borderRadius: 10,
@@ -18,12 +18,13 @@ export const styles = StyleSheet.create({
         marginBottom: 20
     },
     birthdayText: {
-        color: '#8F4068',
         marginLeft: 20,
         marginTop: 12,
         alignItems: 'center',
-        fontWeight: 'bold',
-        fontSize: 20
+     
+      
+
+        fontFamily: "Fredoka-Regular", fontSize: height * 0.06, fontWeight: 'bold', color: '#224854'
     },
     calendarButton: {
         color: '#05375A',
