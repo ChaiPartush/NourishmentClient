@@ -14,7 +14,7 @@ export const SelectWeight = ({ selectedWeight }) => {
                 value={parseFloat(weight)}
                 min={20.0}
                 max={150.0}
-                step={0.01}
+                step={0.1}
                 selectedStyle={{ backgroundColor: '#5a8693' }}
                 unselectedStyle={{ backgroundColor: '#B2B1B9' }}
                 trackStyle={{ height: 8, borderRadius: 8, backgroundColor: COLORS.lightGray2 }}
@@ -96,7 +96,7 @@ export const SelectWeight = ({ selectedWeight }) => {
 
                         <AwesomeButton
                             type="facebook"
-                            onPress={() => setWeight(weight - 0.1)}
+                            onPress={() => setWeight(Number(weight) - 0.1)}
                             width={width * 0.16}
                             height={height * 0.034}
                             borderRadius={12}
@@ -108,12 +108,7 @@ export const SelectWeight = ({ selectedWeight }) => {
                             style={{ left: 1, top: 24 }}
                         >
                             <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
-                                {/* <AntDesign
-                        style={{}}
-                        name="twitter"
-                        size={height * 0.06}
-                        color="white"
-                    /> */}
+
                                 <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                                     <Text style={{ top: 1, left: 3, color: '#224854', fontFamily: "Fredoka-Regular", fontSize: height * 0.016 }}>   ק"ג 0.1 - </Text>
 
@@ -140,7 +135,8 @@ export const SelectWeight = ({ selectedWeight }) => {
 
                         <AwesomeButton
                             type="facebook"
-                            onPress={() => setWeight(weight + 0.1)}
+                            onPress={() =>
+                                setWeight(Number(weight) + 0.1)}
                             width={width * 0.16}
                             height={height * 0.034}
                             borderRadius={12}

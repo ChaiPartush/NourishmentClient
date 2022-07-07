@@ -5,15 +5,15 @@ import { SIZES } from '../../constants/Sizes'
 
 export const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 2
+        // flexDirection: 'row',
+        // alignItems: 'center',
+        // justifyContent: 'space-between',
+        // paddingHorizontal: 2
     },
     Icon: {
-        fontSize: height*0.03,
+        fontSize: height * 0.03,
         color: COLORS.black,
-        opacity: 2
+        opacity: 3,
     },
     button: {
         padding: 10,

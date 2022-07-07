@@ -47,7 +47,7 @@ export const BMICalculator = ({ route, navigation }) => {
 
 
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <View style={{ left: width * 0.45, bottom:height*0.01 }}>
                 <NextArrow navigateToPageFunc={() => navigation.navigate('ChoosefavoriteFood', {
                     chosenTarget: targetName,
                     chosenGender: gender,
@@ -60,14 +60,7 @@ export const BMICalculator = ({ route, navigation }) => {
             </View>
         )
     }
-    const createQuestionText = () => {
-        return (
-            <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center' }}>
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 22 }}>Please Fill Some Basic </Text>
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 22 }}>Informatio About you</Text>
-            </View>
-        )
-    }
+
 
 
     // Explain row below - 
@@ -107,9 +100,14 @@ export const BMICalculator = ({ route, navigation }) => {
         }
         }>
 
+            <View style={{ top: height * 0.05, right: width * 0.45 }}>
+                <BackArrow handleBack={() => navigation.navigate('ChooseTarget')} />
+            </View>
+
 
             {/* Explain row below - text in the top of page*/}
             <Header />
+
 
             {/* Explain row below - container of birthday,height,weight and gender cards*/}
             <View style={{
@@ -119,7 +117,7 @@ export const BMICalculator = ({ route, navigation }) => {
                 borderTopLeftRadius: 100,
                 borderTopRightRadius: 70,
                 width: width * 1.2,
-                marginTop: 20,
+                marginTop: 10,
                 height: height * 0.45,
                 borderTopWidth: 4,
                 borderBottomWidth: 4,
@@ -136,8 +134,8 @@ export const BMICalculator = ({ route, navigation }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     // margin: 20,
-                    top:height*0.023,
-                    marginTop: 20,
+                    top: height * 0.014,
+                    
 
                     // width:width*0.98,
                 }}>
@@ -147,8 +145,8 @@ export const BMICalculator = ({ route, navigation }) => {
 
                     <SelectBirthday birthday={(value) => setBirthday(value)} />
                 </View>
-                
-                <View style={{marginTop:height*0.06}}>
+
+                <View style={{ marginTop: height * 0.045 }}>
                     <SelectWeight selectedWeight={(value) => setWeight(value)} />
                 </View>
 
@@ -176,6 +174,8 @@ export const BMICalculator = ({ route, navigation }) => {
             }}>
 
             </View>
+
+            {createNextArrowView()}
 
 
 

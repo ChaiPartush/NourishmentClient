@@ -23,6 +23,7 @@ export const SelectHeight = ({ chosenHeight }) => {
     // explain row below - variable that save current choosen height 
     const [userHeight, setHeight] = useState(100);
     const [inPress, setIsPress] = useState({ state: false })
+    const [minusCentimeterOn, setMinusCentimterOn] = useState(false)
 
     // Function explanation - create slider to choose number from number between 100 cm to 300 cm
     const renderSlider = () => {
@@ -56,6 +57,18 @@ export const SelectHeight = ({ chosenHeight }) => {
                 }}
             />
         )
+    }
+
+
+
+    let interval = null;
+
+    const startStuff = (func, time) => {
+        interval = setInterval(func, time);
+    }
+
+    const stopStuff = () => {
+        clearInterval(interval);
     }
 
     return (
@@ -117,95 +130,86 @@ export const SelectHeight = ({ chosenHeight }) => {
 
 
 
+
             <View style={{ flexDirection: 'row', right: 18, bottom: 7 }}>
-                <View style={{ left: 8, top: 20 }}>
-                    <TouchableOpacity >
-                        <View
+                <View
 
 
+                // onResponderEnd={() => stopStuff()}
+                >
+                    <AwesomeButton
+                        type="facebook"
+                        onPress={() => setHeight(userHeight - 1)}
+                        width={width * 0.16}
+                        height={height * 0.034}
+                        borderRadius={12}
+                        backgroundColor={'#d6ced8'}
+                        backgroundDarker={'#5a8693'}
+                        borderColor={'#d6ced8'}
+                        borderWidth={2}
+                        raiseLevel={1}
+                        style={{ top: 20 }}
 
-
-                        >
-
-
-
-                            <AwesomeButton
-
-                                type="facebook"
-                                // onPress={() => {
-
-                                //     setHeight(userHeight - 1)
-                                // }}
-
-                                width={width * 0.16}
-                                height={height * 0.034}
-                                borderRadius={12}
-                                backgroundColor={'#d6ced8'}
-                                backgroundDarker={'#5a8693'}
-                                borderColor={'#d6ced8'}
-                                borderWidth={2}
-                                raiseLevel={1}
-
-                            >
-                                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
-                                    {/* <AntDesign
+                    >
+                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
+                            {/* <AntDesign
                         style={{}}
                         name="twitter"
                         size={height * 0.06}
                         color="white"
                     /> */}
-                                    <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                        <Text style={{ top: 1, left: 3, color: '#224854', fontFamily: "Fredoka-Regular", fontSize: height * 0.016 }}>   ס"מ 1 - </Text>
+                            <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                <Text style={{ top: 1, left: 3, color: '#224854', fontFamily: "Fredoka-Regular", fontSize: height * 0.016 }}>   ס"מ 1 - </Text>
 
 
-
-                                    </View>
-
-                                </View>
-
-
-
-                            </AwesomeButton>
-
-
-                        </View >
-                    </TouchableOpacity>
-                </View>
-                <View style={{ left: 8, top: 20 }}>
-                    <TouchableOpacity onPressIn={() => setHeight(userHeight + 1)} >
-                        <AwesomeButton
-                            type="facebook"
-                            // onPress={() => setHeight(userHeight + 1)}
-                            width={width * 0.16}
-                            height={height * 0.034}
-                            borderRadius={12}
-                            backgroundColor={'#d6ced8'}
-                            backgroundDarker={'#5a8693'}
-                            borderColor={'#d6ced8'}
-                            borderWidth={2}
-                            raiseLevel={1}
-
-                        >
-                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
-                                {/* <AntDesign
-                        style={{}}
-                        name="twitter"
-                        size={height * 0.06}
-                        color="white"
-                    /> */}
-                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                    <Text style={{ top: 1, left: 3, color: '#224854', fontWeight: '300', fontFamily: "Fredoka-Regular", fontSize: height * 0.016 }}>   ס"מ 1 + </Text>
-
-
-
-                                </View>
 
                             </View>
 
+                        </View>
 
 
-                        </AwesomeButton>
-                    </TouchableOpacity>
+
+                    </AwesomeButton>
+
+
+                </View >
+
+                <View>
+
+                    <AwesomeButton
+                        type="facebook"
+                        onPress={() => setHeight(userHeight + 1)}
+                        width={width * 0.16}
+                        height={height * 0.034}
+                        borderRadius={12}
+                        backgroundColor={'#d6ced8'}
+                        backgroundDarker={'#5a8693'}
+                        borderColor={'#d6ced8'}
+                        borderWidth={2}
+                        raiseLevel={1}
+                        style={{ left: 8, top: 20 }}
+
+                    >
+                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
+                            {/* <AntDesign
+                        style={{}}
+                        name="twitter"
+                        size={height * 0.06}
+                        color="white"
+                    /> */}
+                            <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                <Text style={{ top: 1, left: 3, color: '#224854', fontWeight: '300', fontFamily: "Fredoka-Regular", fontSize: height * 0.016 }}>   ס"מ 1 + </Text>
+
+
+
+                            </View>
+
+                        </View>
+
+
+
+                    </AwesomeButton>
+
                 </View>
 
 
