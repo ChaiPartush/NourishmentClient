@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StatusBar, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { NextArrow } from '../../components/ArrowsComponents/NextArrow';
 import { BackArrow } from '../../components/ArrowsComponents/BackArrow';
 import { RenderGenderTypes } from '../../components/QuestionsToUserScreensComponents/BMIComponents/SelectGender/RenderGenderTypes'
@@ -11,27 +11,14 @@ import { Colors } from '../../colors';
 import { FoodTypes } from '../../constants/Logics/FoodTypes';
 const { height, width } = Dimensions.get("window")
 
-
-
-
 export const BMICalculator = ({ route, navigation }) => {
     const { targetName } = route.params
-
     const [gender, setGender] = useState(null)
     const [userHeight, setUserHeight] = useState(null)
     const [birthday, setBirthday] = useState(null)
     const [weight, setWeight] = useState(null)
     const [carbs, setCarbs] = useState([])
 
-
-
-    const createBackArrowView = () => {
-        return (
-            <View style={{ flexDirection: 'row' }}>
-                <BackArrow handleBack={() => navigation.navigate('ChooseTarget')} />
-            </View>
-        )
-    }
     const createNextArrowView = () => {
         let arr = []
         const parentFoodString = "/foodType_carbohydrates"
@@ -47,7 +34,7 @@ export const BMICalculator = ({ route, navigation }) => {
 
 
         return (
-            <View style={{ left: width * 0.45, bottom:height*0.01 }}>
+            <View style={{ left: width * 0.45, bottom: height * 0.01 }}>
                 <NextArrow navigateToPageFunc={() => navigation.navigate('ChoosefavoriteFood', {
                     chosenTarget: targetName,
                     chosenGender: gender,
@@ -67,7 +54,7 @@ export const BMICalculator = ({ route, navigation }) => {
     // -- create text that show in top of the page 
     const Header = () => {
         return (
-            <View style={{ marginTop: height * 0.07 }}>
+            <View style={{ marginTop: height * 0.05 }}>
                 <Text style={{
                     fontFamily: "Fredoka-Regular",
                     fontSize: height * 0.035,
@@ -117,7 +104,7 @@ export const BMICalculator = ({ route, navigation }) => {
                 borderTopLeftRadius: 100,
                 borderTopRightRadius: 70,
                 width: width * 1.2,
-                marginTop: 10,
+                marginTop: 20,
                 height: height * 0.45,
                 borderTopWidth: 4,
                 borderBottomWidth: 4,
@@ -133,11 +120,7 @@ export const BMICalculator = ({ route, navigation }) => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // margin: 20,
                     top: height * 0.014,
-                    
-
-                    // width:width*0.98,
                 }}>
                     <View style={{ marginRight: width * 0.03 }}>
                         <SelectHeight chosenHeight={(value) => setUserHeight(value)} />
@@ -149,21 +132,6 @@ export const BMICalculator = ({ route, navigation }) => {
                 <View style={{ marginTop: height * 0.045 }}>
                     <SelectWeight selectedWeight={(value) => setWeight(value)} />
                 </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </View>
 
             <View style={{
@@ -171,34 +139,9 @@ export const BMICalculator = ({ route, navigation }) => {
                 backgroundColor: Colors.lightBlue,
                 alignItems: 'flex-end',
                 justifyContent: 'center'
-            }}>
-
-            </View>
+            }} />
 
             {createNextArrowView()}
-
-
-
-
-
         </View >
-        // <SafeAreaView style={{ flexDirection: 'column', flex: 1 }}>
-        //     <View style={{ backgroundColor: '#87AAAA', height: 220 }}>
-        //         {createBackArrowView()}
-        //         <StatusBar translucent={false} backgroundColor={'#87AAAA'} />
-        //         {createQuestionText()}
-        //     </View>
-        //     <View style={{ flex: 1, flexDirection: 'column', marginTop: -110 }} >
-        //         <RenderGenderTypes gender={(value) => setGender(value)} />
-        //         <View style={{ flexDirection: 'row', flex: 1, borderRadius: 10 }}>
-        //             <SelectHeight chosenHeight={(value) => setHeight(value)} />
-        //             <SelectBirthday birthday={(value) => setBirthday(value)} />
-        //         </View>
-        //         <SelectWeight selectedWeight={(value) => setWeight(value)} />
-        //     </View>
-        //     {createNextArrowView()}
-        // </SafeAreaView >
-
-
     )
 }

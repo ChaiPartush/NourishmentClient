@@ -32,7 +32,9 @@ export const CardChooseFood = ({ plant, favoriteProducts, isFavorite }) => {
     }, [isFavorite])
 
     return (
-        <Animatable.View animation={'bounceInRight'} duration={1000} style={[styles.cardContainer]}>
+        <Animatable.View 
+       // animation={'bounceInRight'} duration={1000}
+         style={[styles.cardContainer]}>
             <View style={[styles.cardIconContainer]}>
                 <TouchableOpacity
                     onPress={() => {

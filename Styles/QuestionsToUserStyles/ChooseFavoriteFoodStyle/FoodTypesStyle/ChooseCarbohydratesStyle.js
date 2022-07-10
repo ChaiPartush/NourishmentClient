@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
         padding: SIZES.radius,
         marginBottom: 10,
         borderRadius: SIZES.radius,
-        backgroundColor: COLORS.lightGray2
+        backgroundColor: '#d6ced8'
+        // COLORS.lightGray2
     },
     cardIcon: {
         width: 20,

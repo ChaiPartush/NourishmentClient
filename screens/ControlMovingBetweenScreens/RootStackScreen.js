@@ -82,14 +82,17 @@ export const RootStackScreen = ({ navigation }) => (
                     },
                     cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid,
                 }} /> */}
-            <RootStack.Screen name="ChoosefavoriteFood" component={ChoosefavoriteFood} options={
-                {
-                    transitionSpec: {
-                        open: config,
-                        close: closeConfig,
-                    },
-                    cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,
-                }} />
+            <RootStack.Screen name="ChoosefavoriteFood" component={ChoosefavoriteFood}
+                options={
+                    {
+                        transitionSpec: {
+                            open: config,
+                            close: closeConfig,
+                        },
+                        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                    }
+                }
+            />
             <RootStack.Screen name="DetailsChooseProblem" component={DetailsChooseProblem} options={transition(CardStyleInterpolators.forModalPresentationIOS)} />
             <RootStack.Screen name="DescriptionScreen" component={DescriptionScreen} />
 

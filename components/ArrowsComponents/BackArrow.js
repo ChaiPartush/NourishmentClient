@@ -13,7 +13,8 @@ export const BackArrow = ({ handleBack }) => {
             <AntDesignIcons name="left" style={{
                 fontSize: height * 0.03,
                 color: COLORS.black,
-                opacity: 2
+             
+                
             }} />
         </TouchableOpacity>
     )
