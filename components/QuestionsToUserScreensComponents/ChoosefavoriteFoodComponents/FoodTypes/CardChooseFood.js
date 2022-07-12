@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable'
 import { styles } from '../../../../Styles/QuestionsToUserStyles/ChooseFavoriteFoodStyle/FoodTypesStyle/ChooseCarbohydratesStyle'
 import { ICONS } from '../../../../constants/Icons'
 import { height, width } from '../../../../constants/ScreenDimentionConst';
+import { Colors } from '../../../../colors';
 
 
 const ShowImage = ({ plant }) => {
@@ -32,9 +33,9 @@ export const CardChooseFood = ({ plant, favoriteProducts, isFavorite }) => {
     }, [isFavorite])
 
     return (
-        <Animatable.View 
-       // animation={'bounceInRight'} duration={1000}
-         style={[styles.cardContainer]}>
+        <Animatable.View
+            // animation={'bounceInRight'} duration={1000}
+            style={[styles.cardContainer]}>
             <View style={[styles.cardIconContainer]}>
                 <TouchableOpacity
                     onPress={() => {
@@ -44,7 +45,10 @@ export const CardChooseFood = ({ plant, favoriteProducts, isFavorite }) => {
                     }}>
                     <Image
                         source={ICONS.love}
-                        style={[styles.cardIcon, { tintColor: favorite ? COLORS.primary : COLORS.gray }]}
+                        style={[{
+                            width: width * 0.05,
+                            height: height * 0.022,
+                        }, { tintColor: favorite ? COLORS.primary : COLORS.gray }]}
                     />
                 </TouchableOpacity>
             </View>
@@ -61,7 +65,15 @@ export const CardChooseFood = ({ plant, favoriteProducts, isFavorite }) => {
 
                 </View> */}
 
-                <Text style={{ fontWeight: 'bold', fontSize: 17, textAlign: 'center', marginTop: 15 }}>{plant.name}</Text>
+                <Text style={{
+                    // fontWeight: 'bold', fontSize: 17, textAlign: 'center', marginTop: 15
+                    fontFamily: "Fredoka-Regular",
+                    fontSize: height * 0.02,
+                    // fontWeight: 'bold',
+                    textAlign: 'center',
+                    color: '#224854',
+                    marginTop: height * 0.014
+                }}>{plant.hebrewName}</Text>
 
             </View>
         </Animatable.View >

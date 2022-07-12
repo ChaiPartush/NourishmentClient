@@ -108,13 +108,17 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         let arr = []
         const parentFoodString = "/foodType_" + parentFood
         const parentFooddItems = db.collection(parentFoodString)
-        parentFooddItems.onSnapshot((querySnapShot) =>
+        parentFooddItems.onSnapshot((querySnapShot) => {
             querySnapShot.forEach((doc) => {
+                console.log(doc.data())
                 const itemName = doc.data()["name"]
                 const itemImage = doc.data()["image"]
-                const obj = { name: itemName, img: itemImage }
+                const itemHebrewName = doc.data()["hebrewName"]
+                const obj = { name: itemName, img: itemImage, hebrewName: itemHebrewName }
                 arr.push(obj)
-            }))
+
+            })
+        })
 
         switch (parentFood) {
             // case FoodTypes.carbohydrates:

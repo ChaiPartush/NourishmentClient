@@ -2,24 +2,28 @@ import { StyleSheet } from 'react-native';
 import { SIZES } from '../../../../constants/Sizes'
 import { COLORS } from '../../../../constants/Colors'
 import { FONTS } from '../../../../constants/Fonts'
+import { Colors } from '../../../../colors';
 
 export const styles = StyleSheet.create({
     cardContainer: {
         width: 150,
+        borderColor: Colors.lightBlue,
+        borderWidth:3,
         padding: SIZES.radius,
         marginBottom: 10,
         borderRadius: SIZES.radius,
         backgroundColor: '#d6ced8'
-        // COLORS.lightGray2
+
+        //  COLORS.lightGray2
     },
     cardIcon: {
         width: 20,
         height: 20,
-        
+
     },
     cardIconContainer: {
-        alignItems:'flex-end'
-      
+        alignItems: 'flex-end'
+
     },
 
     cardContainerImage: {
