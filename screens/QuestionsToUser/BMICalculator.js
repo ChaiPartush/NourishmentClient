@@ -42,7 +42,7 @@ export const BMICalculator = ({ route, navigation }) => {
                     chosenHeight: height,
                     chosenBirthday: birthday,
                     chosenWeight: weight,
-                    carbs: arr
+                    carbs: arr,
 
                 })} />
             </View>

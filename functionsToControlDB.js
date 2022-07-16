@@ -42,7 +42,6 @@ export const getProductObject = async (productName) => {
                 protainsFor100Grams: doc.data()["protainsFor100Grams"],
                 type: doc.data()["type"]
             }
-            console.log(itemObj)
             return itemObj
         }
     }

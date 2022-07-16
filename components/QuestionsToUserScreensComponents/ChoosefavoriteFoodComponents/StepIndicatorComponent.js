@@ -138,13 +138,14 @@ export const StepIndicatorComponent = ({ currentPage, changePage }) => {
     
     return (
         <StepIndicator
+        
             customStyles={firstIndicatorStyles}
             stepCount={4}
             onPress={(value) => { changePage(value) }}
+            
             direction="horizontal"
             currentPosition={currentPage}
             renderStepIndicator={(value) => {
-                console.log(value)
                 const numbers = [0, 1, 2, 3]
                 switch (value.position) {
                     case 0: {

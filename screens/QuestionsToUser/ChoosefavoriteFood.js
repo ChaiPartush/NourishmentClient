@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TextInput, FlatList, SafeAreaView } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Image, TextInput, FlatList, SafeAreaView, ScrollView } from 'react-native';
 import { StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable'
 import { ChooseProtains } from '../../components/QuestionsToUserScreensComponents/ChoosefavoriteFoodComponents/FoodTypes/ChooseProtains/ChooseProtains'
@@ -17,6 +17,7 @@ import { db } from '../../config';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { Colors } from '../../colors';
 import Swiper from 'react-native-swiper';
+import { index } from 'mathjs';
 
 // Explain row below - 
 // -- create text that show in top of the page 
@@ -64,7 +65,6 @@ const ChangePage = (page) => {
 
 export const ChoosefavoriteFood = ({ route, navigation }) => {
     const { chosenTarget, chosenGender, chosenHeight, chosenBirthday, chosenWeight, carbs, page, chosenProducts } = route.params
-
     const [currentPage, setCurrentPage] = useState(ChangePage(page));
     const [fatsItems, setFatsItems] = useState(null)
     const [carbohydratesItems, setCarbohydratesItems] = useState(carbs)
@@ -73,6 +73,11 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
     const [vitaminsItems, setVitaminsItems] = useState(null)
     const [nextPress, setNextStep] = useState(false)
     const [backPress, setBackStep] = useState(false)
+
+
+
+
+
 
     const [stratXPressLocation, setStartXPressLocation] = useState(0)
     const [stratYPressLocation, setStartYPressLocation] = useState(0)
@@ -110,7 +115,6 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         const parentFooddItems = db.collection(parentFoodString)
         parentFooddItems.onSnapshot((querySnapShot) => {
             querySnapShot.forEach((doc) => {
-                console.log(doc.data())
                 const itemName = doc.data()["name"]
                 const itemImage = doc.data()["image"]
                 const itemHebrewName = doc.data()["hebrewName"]
@@ -121,11 +125,11 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         })
 
         switch (parentFood) {
-            // case FoodTypes.carbohydrates:
-            //     {
-            //         setCarbohydratesItems(carbs)
-            //         break
-            //     }
+            case FoodTypes.carbohydrates:
+                {
+                    setCarbohydratesItems(arr)
+                    break
+                }
             case FoodTypes.fats:
                 {
                     setFatsItems(arr)
@@ -145,10 +149,12 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
 
     }
 
+
+
     useEffect(() => {
-        // if (carbohydratesItems === null) {
-        //     renderItems(FoodTypes.carbohydrates)
-        // }
+        if (carbohydratesItems === null) {
+            renderItems(FoodTypes.carbohydrates)
+        }
         if (fatsItems === null) {
             renderItems(FoodTypes.fats)
         }
@@ -158,7 +164,7 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         if (vitaminsItems === null) {
             renderItems(FoodTypes.vitamins)
         }
-    })
+    }, [carbohydratesItems, fatsItems, protainsItems, vitaminsItems])
 
     const renderSearch = () => {
         return (
@@ -249,6 +255,61 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
             </View>
         )
     }
+    const renderItem = ({ item }) => {
+        return (
+            <View
+
+                style={{ flex: 1 }}
+            >
+
+
+                <Animatable.View
+                    animation={'bounceInRight'} duration={1000}
+
+                    style={{ marginTop: height * 0.02 }}>
+
+
+                    < CardChooseFood
+
+                        plant={item}
+                        favoriteProducts={(value) => {
+
+                            if (value["type"] === true) {
+                                const name = value["name"]
+                                let newArr = []
+                                newArr = favorite.slice()
+                                newArr.push(name)
+                                setFavorite(newArr)
+
+                            } else if (value["type"] === false) {
+                                const name = value["name"]
+                                let newArr = []
+                                newArr = favorite.slice()
+                                const itemIndex = newArr.indexOf(name)
+                                newArr.splice(itemIndex, 1)
+                                setFavorite(newArr)
+                            }
+                        }}
+                        isFavorite={favorite.includes(item["name"])}
+                    />
+
+                </Animatable.View>
+
+
+            </View>
+        )
+    }
+
+    const EmptyListMessage = ({ item }) => {
+        return (
+            // Flat List Item
+            <Text
+                style={{ color: 'transparent' }}
+                onPress={() => console.log(item)}>
+                No Data Found
+            </Text>
+        );
+    };
 
     const renderChooseFoodComponents = () => {
 
@@ -256,64 +317,69 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
             <View>
 
                 < FlatList
-                    // onScrollEndDrag={() => console.log("end")}
-                    // onScrollBeginDrag={() => console.log("start")}
                     columnWrapperStyle={{
-                        // justifyContent: 'space-evenly'
                         height: height * 0.3,
                         width: width * 0.8,
                         left: width * 0.15,
-                        top: height * 0.01
+                        top: height * 0.01,
+
 
 
                     }}
                     showsVerticalScrollIndicator={false}
                     numColumns={2}
-                    refreshing={true}
+
                     data={parentItems()}
-                    renderItem={({ item }) => {
+                    ListEmptyComponent={EmptyListMessage}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.name}
 
-                        return (
-                            <View
-
-                                style={{ flex: 1 }}>
-
-                                <Animatable.View
-                                    animation={'bounceInRight'} duration={1000}
-                                    style={{ marginTop: height * 0.02 }}>
-
-                                    < CardChooseFood
-                                        plant={item}
-                                        favoriteProducts={(value) => {
-
-                                            if (value["type"] === true) {
-                                                const name = value["name"]
-                                                let newArr = []
-                                                newArr = favorite.slice()
-                                                newArr.push(name)
-                                                setFavorite(newArr)
-
-                                            } else if (value["type"] === false) {
-                                                const name = value["name"]
-                                                let newArr = []
-                                                newArr = favorite.slice()
-                                                const itemIndex = newArr.indexOf(name)
-                                                newArr.splice(itemIndex, 1)
-                                                setFavorite(newArr)
-                                            }
-                                        }}
-                                        isFavorite={favorite.includes(item["name"])}
-                                    />
-
-                                </Animatable.View>
-
-                            </View>
-                        )
-                    }
+                // renderItem={({ item }) => {
 
 
-                    }
-                    keyExtractor={item => item["name"]}
+                //     return (
+                //         <View
+
+                //             style={{ flex: 1 }}
+                //         >
+
+                //             <Animatable.View
+                //                 animation={'bounceInRight'} duration={1000}
+
+                //                 style={{ marginTop: height * 0.02 }}>
+
+
+                //                 < CardChooseFood
+                //                     plant={item}
+                //                     favoriteProducts={(value) => {
+
+                //                         if (value["type"] === true) {
+                //                             const name = value["name"]
+                //                             let newArr = []
+                //                             newArr = favorite.slice()
+                //                             newArr.push(name)
+                //                             setFavorite(newArr)
+
+                //                         } else if (value["type"] === false) {
+                //                             const name = value["name"]
+                //                             let newArr = []
+                //                             newArr = favorite.slice()
+                //                             const itemIndex = newArr.indexOf(name)
+                //                             newArr.splice(itemIndex, 1)
+                //                             setFavorite(newArr)
+                //                         }
+                //                     }}
+                //                     isFavorite={favorite.includes(item["name"])}
+                //                 />
+
+                //             </Animatable.View>
+
+                //         </View>
+                //     )
+                // }
+
+
+                //   }
 
                 />
             </View>
@@ -322,7 +388,6 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
     }
 
     const parentItems = () => {
-
         switch (currentPage) {
             case 0: {
                 return carbohydratesItems
@@ -429,15 +494,10 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
 
 
             <View
-
-
-
-
                 style={{
                     flexDirection: 'column',
                     flex: 1,
                     justifyContent: 'flex-start',
-
                     backgroundColor: '#5a8693',
                     borderTopLeftRadius: 100,
                     borderTopRightRadius: 70,
@@ -452,14 +512,10 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                 }}>
 
                 <Animatable.View
-
                     animation={'bounceInRight'} duration={1000}
                     style={{ marginTop: height * 0.02, justifyContent: 'center' }}>
                     {renderChooseFoodComponents()}
                 </Animatable.View>
-
-
-
             </View>
 
             <View style={{
@@ -470,34 +526,9 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
             }} />
 
             <View style={{ alignSelf: 'flex-end', marginRight: width * 0.02, marginBottom: height * 0.01, backgroundColor: Colors.lightBlue }}>
-
                 {createNextArrowView()}
             </View>
-
         </View>
-
-
-
-
-
-        // <View>
-        //     <View style={{ backgroundColor: '#E4D8DC', height: height * 0.17 }} >
-        //         <StatusBar translucent={false} backgroundColor={'#E4D8DC'} />
-        //         <View style={{ flexDirection: 'row', backgroundColor: '#E4D8DC', justifyContent: 'space-between' }}>
-        //             {createBackArrowView()}
-        //             {createNextArrowView()}
-        //         </View>
-        //         <View >
-        //             <StepIndicatorComponent currentPage={currentPage} />
-        //             {RenderTitle()}
-        //         </View>
-        //     </View>
-        //     <Animatable.View
-        //         // animation={'bounceInRight'} duration={1000}
-        //         style={{ backgroundColor: "white", height: height * 0.83, marginTop: height * 0.02 }}>
-        //         {renderChooseFoodComponents()}
-        //     </Animatable.View>
-        // </View>
-    );
+    )
 }
 

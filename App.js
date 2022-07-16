@@ -32,7 +32,7 @@ export default App = (props) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [useName, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [start, setStart] = useState(true)
+  const [start, setStart] = useState(false)
   const [startDelete, setStartDelete] = useState(false)
   const [startChangeDocName, setStartChangeDocName] = useState(false)
 
@@ -61,13 +61,13 @@ export default App = (props) => {
         sourceOfInformation: 'https://fdc.nal.usda.gov/fdc-app.html#/food-details/169705/nutrients', //  url of product 
         englishCategory: '',
         hebrewCategory: '',
-        image:   // string - base 64 of image
-          '',
+        // string - base 64 of image
+        image: './assets/adaptive-icon.png'
       })
   }
 
   if (startDelete === true) {
-    DeleteItem(FoodTypes.protains, 'oats')
+    DeleteItem(FoodTypes.carbohydrates, 'aaa')
   }
 
   if (startChangeDocName === true) {
@@ -97,7 +97,7 @@ export default App = (props) => {
       //   <Button title='submit data' onPress={create}></Button>
       // </View>
       // <ImageBackground source={require('./assets/shapesBackground.jpg')} resizeMode={"cover"} style={{ width: width }}>
-        <RootStackScreen />
+      <RootStackScreen />
       // </ImageBackground>
       // <MenuScreen />
       // <ChoosefavoriteFood />
