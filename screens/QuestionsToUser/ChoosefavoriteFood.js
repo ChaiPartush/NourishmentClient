@@ -367,6 +367,7 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
 
                         }}
                         showsVerticalScrollIndicator={false}
+                        
 
                         numColumns={2}
                         // onScroll={(event) => {

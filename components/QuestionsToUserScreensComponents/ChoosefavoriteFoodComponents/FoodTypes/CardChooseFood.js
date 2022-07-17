@@ -40,13 +40,13 @@ export const CardChooseFood = ({ plant, isScroll, favoriteProducts, isFavorite }
 
     return (
         <Animatable.View
-            onTouchStart={(event) => {
-                favoriteProducts({ type: !favorite, name: plant.name })
+            // onTouchStart={(event) => {
+            //     favoriteProducts({ type: !favorite, name: plant.name })
 
-                if (isScroll === false) {
-                    setFavorite(!favorite)
-                }
-            }}
+            //     if (isScroll === false) {
+            //         setFavorite(!favorite)
+            //     }
+            // }}
             // animation={'bounceInRight'} duration={1000}
             style={[styles.cardContainer]}>
             <View
@@ -56,11 +56,11 @@ export const CardChooseFood = ({ plant, isScroll, favoriteProducts, isFavorite }
                 }}
                 style={[styles.cardIconContainer]}>
                 <TouchableOpacity
-                // onPress={() => {
-                //     favoriteProducts({ type: !favorite, name: plant.name })
-                //     setFavorite(!favorite)
+                    onPress={() => {
+                        favoriteProducts({ type: !favorite, name: plant.name })
+                        setFavorite(!favorite)
 
-                // }}
+                    }}
                 >
                     {
                         favorite ? <MaterialCommunityIcons name="cards-heart" size={height * 0.026} color={"#EB4747"} /> :
