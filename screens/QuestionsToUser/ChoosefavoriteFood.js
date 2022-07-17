@@ -14,10 +14,14 @@ import { height, width } from '../../constants/ScreenDimentionConst';
 import { CardChooseFood } from '../../components/QuestionsToUserScreensComponents/ChoosefavoriteFoodComponents/FoodTypes/CardChooseFood'
 import { FoodTypes } from '../../constants/Logics/FoodTypes'
 import { db } from '../../config';
-import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import { swiperFlatList } from 'react-native-swiper-flatlist';
 import { Colors } from '../../colors';
-import Swiper from 'react-native-swiper';
+// import Swiper from 'react-native-swiper';
+import { SwiperComponent } from '../../components/Swiper';
 import { index } from 'mathjs';
+import { addAbortSignal } from 'stream';
+import { Stteper } from './stteper';
+const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
 
 // Explain row below - 
 // -- create text that show in top of the page 
@@ -63,9 +67,12 @@ const ChangePage = (page) => {
     }
 }
 
+
+
 export const ChoosefavoriteFood = ({ route, navigation }) => {
+
     const { chosenTarget, chosenGender, chosenHeight, chosenBirthday, chosenWeight, carbs, page, chosenProducts } = route.params
-    const [currentPage, setCurrentPage] = useState(ChangePage(page));
+    const [currentPage, setCurrentPage] = React.useState(ChangePage(page));
     const [fatsItems, setFatsItems] = useState(null)
     const [carbohydratesItems, setCarbohydratesItems] = useState(carbs)
     const [protainsItems, setProtainsItems] = useState(null)
@@ -73,16 +80,30 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
     const [vitaminsItems, setVitaminsItems] = useState(null)
     const [nextPress, setNextStep] = useState(false)
     const [backPress, setBackStep] = useState(false)
-
-
-
+    const [allowScroll, setAloowScroll] = useState(true)
+    const [isScroll, setIsScroll] = useState(false)
+    const [visible, setVisible] = useState(true)
+    let swipe = useRef(0)
 
 
 
     const [stratXPressLocation, setStartXPressLocation] = useState(0)
     const [stratYPressLocation, setStartYPressLocation] = useState(0)
     const colors = ['tomato', 'thistle', 'skyblue', 'teal'];
+    // const renderViewPagerPage = (data) => {
+    //     return (
+    //         <View key={data} style={{
+    //             flex: 1,
+    //             justifyContent: 'center',
+    //             alignItems: 'center',
+    //         }}>
+    //             <Text>{data}</Text>
+    //         </View>
+    //     );
+    // };
+
     const renderViewPagerPage = (data) => {
+
         return (
             <View key={data} style={{
                 flex: 1,
@@ -93,10 +114,14 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
             </View>
         );
     };
+
     useEffect(() => {
         const change = ChangePage(page)
         setCurrentPage(change)
     }, [page])
+
+    useEffect(() => { console.log('ss') }, [swipe.current])
+
 
     useEffect(() => {
         if (chosenProducts !== undefined) {
@@ -269,10 +294,13 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                     style={{ marginTop: height * 0.02 }}>
 
 
+
                     < CardChooseFood
 
                         plant={item}
+                        isScroll={isScroll}
                         favoriteProducts={(value) => {
+
 
                             if (value["type"] === true) {
                                 const name = value["name"]
@@ -289,9 +317,11 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                                 newArr.splice(itemIndex, 1)
                                 setFavorite(newArr)
                             }
-                        }}
+                        }
+                        }
                         isFavorite={favorite.includes(item["name"])}
                     />
+
 
                 </Animatable.View>
 
@@ -311,77 +341,92 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         );
     };
 
+
+
+
     const renderChooseFoodComponents = () => {
 
         return (
             <View>
+                {visible &&
 
-                < FlatList
-                    columnWrapperStyle={{
-                        height: height * 0.3,
-                        width: width * 0.8,
-                        left: width * 0.15,
-                        top: height * 0.01,
+                    < FlatList
+                        scrollEnabled={allowScroll}
 
 
+                        // onScrollBeginDrag={setIsScroll(true)}
+                        // onScrollEndDrag={setIsScroll(false)}
 
-                    }}
-                    showsVerticalScrollIndicator={false}
-                    numColumns={2}
-
-                    data={parentItems()}
-                    ListEmptyComponent={EmptyListMessage}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.name}
-
-                // renderItem={({ item }) => {
+                        columnWrapperStyle={{
+                            height: height * 0.3,
+                            width: width * 0.8,
+                            left: width * 0.15,
+                            top: height * 0.01,
 
 
-                //     return (
-                //         <View
 
-                //             style={{ flex: 1 }}
-                //         >
+                        }}
+                        showsVerticalScrollIndicator={false}
 
-                //             <Animatable.View
-                //                 animation={'bounceInRight'} duration={1000}
+                        numColumns={2}
+                        // onScroll={(event) => {
 
-                //                 style={{ marginTop: height * 0.02 }}>
+                        // }}
 
+                        // onScrollBeginDrag={(e) => setIsScroll(true)}
+                        data={parentItems()}
+                        // ListEmptyComponent={EmptyListMessage}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.name}
 
-                //                 < CardChooseFood
-                //                     plant={item}
-                //                     favoriteProducts={(value) => {
-
-                //                         if (value["type"] === true) {
-                //                             const name = value["name"]
-                //                             let newArr = []
-                //                             newArr = favorite.slice()
-                //                             newArr.push(name)
-                //                             setFavorite(newArr)
-
-                //                         } else if (value["type"] === false) {
-                //                             const name = value["name"]
-                //                             let newArr = []
-                //                             newArr = favorite.slice()
-                //                             const itemIndex = newArr.indexOf(name)
-                //                             newArr.splice(itemIndex, 1)
-                //                             setFavorite(newArr)
-                //                         }
-                //                     }}
-                //                     isFavorite={favorite.includes(item["name"])}
-                //                 />
-
-                //             </Animatable.View>
-
-                //         </View>
-                //     )
-                // }
+                    // renderItem={({ item }) => {
 
 
-                //   }
+                    //     return (
+                    //         <View
 
-                />
+                    //             style={{ flex: 1 }}
+                    //         >
+
+                    //             <Animatable.View
+                    //                 animation={'bounceInRight'} duration={1000}
+
+                    //                 style={{ marginTop: height * 0.02 }}>
+
+
+                    //                 < CardChooseFood
+                    //                     plant={item}
+                    //                     favoriteProducts={(value) => {
+
+                    //                         if (value["type"] === true) {
+                    //                             const name = value["name"]
+                    //                             let newArr = []
+                    //                             newArr = favorite.slice()
+                    //                             newArr.push(name)
+                    //                             setFavorite(newArr)
+
+                    //                         } else if (value["type"] === false) {
+                    //                             const name = value["name"]
+                    //                             let newArr = []
+                    //                             newArr = favorite.slice()
+                    //                             const itemIndex = newArr.indexOf(name)
+                    //                             newArr.splice(itemIndex, 1)
+                    //                             setFavorite(newArr)
+                    //                         }
+                    //                     }}
+                    //                     isFavorite={favorite.includes(item["name"])}
+                    //                 />
+
+                    //             </Animatable.View>
+
+                    //         </View>
+                    //     )
+                    // }
+
+
+                    //   }
+
+                    />}
             </View>
 
         )
@@ -455,23 +500,33 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
     }
 
     const aa = (page) => {
+        swipe.current = true
+    }
+
+    let yy = useRef(null)
+
+    const ui = (page) => {
         setCurrentPage(page)
     }
 
+
+
+
+
+
+
+
+
+
     return (
         < View
-
             style={{
                 backgroundColor: Colors.lightBlue,
                 flexDirection: 'column',
                 flex: 1,
-
                 // alignItems: 'center',
                 marginTop: StatusBar.currentHeight,
-
-
-            }
-            }
+            }}
         >
             <View style={{ marginTop: height * 0.011, marginLeft: width * 0.02, justifyContent: 'center' }}>
                 {createBackArrowView()}
@@ -489,11 +544,50 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                 <View style={{ top: height * 0.04 }}>
                     {RenderTitle()}
                 </View>
+
+                <View>
+
+                </View>
             </View>
 
 
 
+
             <View
+
+                onTouchStart={(e) => {
+                    setStartXPressLocation(e.nativeEvent.locationX)
+                    setStartYPressLocation(e.nativeEvent.locationY)
+                }}
+
+                onResponderMove={(e) => {
+
+                    const yDistance = Math.abs(e.nativeEvent.locationY - stratYPressLocation)
+                    const xDistance = Math.abs(e.nativeEvent.locationX - stratXPressLocation)
+
+                    if (e.nativeEvent.locationX < stratXPressLocation && xDistance > yDistance && xDistance > 5) {
+                        setAloowScroll(false)
+                        setCurrentPage(currentPage + 1)
+                        setAloowScroll(true)
+
+                    }
+                    if (e.nativeEvent.locationX > stratXPressLocation && xDistance > yDistance && xDistance > 5) {
+                        setAloowScroll(false)
+                        setCurrentPage(currentPage - 1)
+                        setAloowScroll(true)
+
+                    }
+
+                    setStartXPressLocation(e.nativeEvent.locationX)
+                    setStartYPressLocation(e.nativeEvent.locationY)
+
+
+                }}
+
+
+
+
+
                 style={{
                     flexDirection: 'column',
                     flex: 1,
@@ -511,8 +605,33 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                     borderBottomRightRadius: 70,
                 }}>
 
+
+
+                {/* <SwiperComponent currentPage={currentPage}
+                changePage={(value) => setCurrentPage(value)}
+                /> */}
+
+                {/* <Swiper
+                    style={{ flexGrow: 1 }}
+                    showsPagination={false}
+                    index={currentPage}
+                    loop={false}
+                    onIndexChanged={(page) => {
+                        return (
+                            setCurrentPage(page))
+                    }}
+                >
+                    {PAGES.map((page) => {
+                        return (
+                            renderViewPagerPage(page)
+                        )
+                    }
+                    )}
+                </Swiper> */}
                 <Animatable.View
                     animation={'bounceInRight'} duration={1000}
+
+
                     style={{ marginTop: height * 0.02, justifyContent: 'center' }}>
                     {renderChooseFoodComponents()}
                 </Animatable.View>

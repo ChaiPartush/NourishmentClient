@@ -27,7 +27,7 @@ const ShowImage = ({ plant }) => {
         )
     }
 }
-export const CardChooseFood = ({ plant, favoriteProducts, isFavorite }) => {
+export const CardChooseFood = ({ plant, isScroll, favoriteProducts, isFavorite }) => {
 
 
     const [favorite, setFavorite] = useState(false);
@@ -42,7 +42,10 @@ export const CardChooseFood = ({ plant, favoriteProducts, isFavorite }) => {
         <Animatable.View
             onTouchStart={(event) => {
                 favoriteProducts({ type: !favorite, name: plant.name })
-                setFavorite(!favorite)
+
+                if (isScroll === false) {
+                    setFavorite(!favorite)
+                }
             }}
             // animation={'bounceInRight'} duration={1000}
             style={[styles.cardContainer]}>
