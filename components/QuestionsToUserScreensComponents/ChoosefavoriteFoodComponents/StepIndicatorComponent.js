@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import StepIndicator from 'react-native-step-indicator';
 import { Icon } from 'react-native-elements'
 import { View, Text } from 'react-native'
@@ -8,6 +8,7 @@ import { height } from '../../../constants/ScreenDimentionConst';
 
 
 export const StepIndicatorComponent = ({ currentPage, changePage }) => {
+   
     const firstIndicatorStyles = {
         stepIndicatorSize: 30,
         currentStepIndicatorSize: 40,
@@ -138,7 +139,7 @@ export const StepIndicatorComponent = ({ currentPage, changePage }) => {
     
     return (
         <StepIndicator
-        
+            
             customStyles={firstIndicatorStyles}
             stepCount={4}
             onPress={(value) => { changePage(value) }}
