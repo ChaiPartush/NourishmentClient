@@ -93,6 +93,30 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
     const [stratXPressLocation, setStartXPressLocation] = useState(0)
     const [stratYPressLocation, setStartYPressLocation] = useState(0)
     const colors = ['tomato', 'thistle', 'skyblue', 'teal'];
+
+    const alphabeticalOrder = (arr) => {
+        return arr.sort((a, b) => a.hebrewName < b.hebrewName ? -1 : 1)
+    }
+
+    useEffect(() => {
+        if (carbohydratesItems === null) {
+            const parentFoodString = "/foodType_" + FoodTypes.carbohydrates
+            const parentFooddItems = db.collection(parentFoodString)
+            parentFooddItems.onSnapshot((querySnapShot) => {
+                let arr = []
+                querySnapShot.forEach((doc) => {
+                    const itemName = doc.data()["name"]
+                    const itemImage = doc.data()["image"]
+                    const itemHebrewName = doc.data()["hebrewName"]
+                    const obj = { name: itemName, img: itemImage, hebrewName: itemHebrewName }
+                    arr.push(obj)
+
+
+                })
+                setCarbohydratesItems(alphabeticalOrder(arr))
+            })
+        }
+    }, [carbohydratesItems])
     // const renderViewPagerPage = (data) => {
     //     return (
     //         <View key={data} style={{
@@ -148,7 +172,6 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                 const itemHebrewName = doc.data()["hebrewName"]
                 const obj = { name: itemName, img: itemImage, hebrewName: itemHebrewName }
                 arr.push(obj)
-
             })
         })
 
@@ -178,32 +201,14 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
     }
 
 
+
+
+
+
     useEffect(() => {
         if (carbohydratesItems === null) {
-            const parentFoodString = "/foodType_" + FoodTypes.carbohydrates
-            const parentFooddItems = db.collection(parentFoodString)
-            parentFooddItems.onSnapshot((querySnapShot) => {
-                let arr = []
-                querySnapShot.forEach((doc) => {
-                    const itemName = doc.data()["name"]
-                    const itemImage = doc.data()["image"]
-                    const itemHebrewName = doc.data()["hebrewName"]
-                    const obj = { name: itemName, img: itemImage, hebrewName: itemHebrewName }
-                    arr.push(obj)
-
-
-                })
-                setCarbohydratesItems(arr)
-            })
+            renderItems(FoodTypes.carbohydrates)
         }
-    }, [carbohydratesItems])
-
-
-
-    useEffect(() => {
-        // if (carbohydratesItems === null) {
-        //     renderItems(FoodTypes.carbohydrates)
-        // }
         if (fatsItems === null) {
             renderItems(FoodTypes.fats)
         }
@@ -391,6 +396,8 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         return (
             < FlatList
 
+
+
                 scrollEnabled={allowScroll}
                 columnWrapperStyle={{
                     height: height * 0.3,
@@ -516,8 +523,8 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
 
 
 
-            <View
-
+            <Animatable.View
+                animation={'bounceInRight'} duration={1500} delay={100}
 
                 onTouchStart={(e) => {
                     setStartXPressLocation(e.nativeEvent.locationX)
@@ -529,13 +536,13 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                     const yDistance = Math.abs(e.nativeEvent.locationY - stratYPressLocation)
                     const xDistance = Math.abs(e.nativeEvent.locationX - stratXPressLocation)
 
-                    if (e.nativeEvent.locationX < stratXPressLocation && xDistance > yDistance && xDistance > 5) {
+                    if (e.nativeEvent.locationX < stratXPressLocation && xDistance > yDistance && xDistance > width * 0.01) {
                         setAloowScroll(false)
                         setCurrentPage(currentPage + 1)
                         setAloowScroll(true)
 
                     }
-                    if (e.nativeEvent.locationX > stratXPressLocation && xDistance > yDistance && xDistance > 5) {
+                    if (e.nativeEvent.locationX > stratXPressLocation && xDistance > yDistance && xDistance > width * 0.01) {
                         setAloowScroll(false)
                         setCurrentPage(currentPage - 1)
                         setAloowScroll(true)
@@ -598,7 +605,7 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                     style={{ marginTop: height * 0.02, justifyContent: 'center' }}>
                     {renderChooseFoodComponents()}
                 </Animatable.View>
-            </View>
+            </Animatable.View>
 
             <View style={{
                 height: 0.08 * height,

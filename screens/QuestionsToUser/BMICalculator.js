@@ -18,6 +18,7 @@ export const BMICalculator = ({ route, navigation }) => {
     const [birthday, setBirthday] = useState(null)
     const [weight, setWeight] = useState(null)
     const [carbs, setCarbs] = useState([])
+    
 
     const createNextArrowView = () => {
         let arr = []
