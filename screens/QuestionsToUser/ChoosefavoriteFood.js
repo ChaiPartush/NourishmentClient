@@ -117,6 +117,67 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
             })
         }
     }, [carbohydratesItems])
+
+
+    useEffect(() => {
+        if (protainsItems === null) {
+            const parentFoodString = "/foodType_" + FoodTypes.protains
+            const parentFooddItems = db.collection(parentFoodString)
+            parentFooddItems.onSnapshot((querySnapShot) => {
+                let arr = []
+                querySnapShot.forEach((doc) => {
+                    const itemName = doc.data()["name"]
+                    const itemImage = doc.data()["image"]
+                    const itemHebrewName = doc.data()["hebrewName"]
+                    const obj = { name: itemName, img: itemImage, hebrewName: itemHebrewName }
+                    arr.push(obj)
+
+
+                })
+                setProtainsItems(alphabeticalOrder(arr))
+            })
+        }
+    }, [protainsItems])
+
+    useEffect(() => {
+        if (vitaminsItems === null) {
+            const parentFoodString = "/foodType_" + FoodTypes.vitamins
+            const parentFooddItems = db.collection(parentFoodString)
+            parentFooddItems.onSnapshot((querySnapShot) => {
+                let arr = []
+                querySnapShot.forEach((doc) => {
+                    const itemName = doc.data()["name"]
+                    const itemImage = doc.data()["image"]
+                    const itemHebrewName = doc.data()["hebrewName"]
+                    const obj = { name: itemName, img: itemImage, hebrewName: itemHebrewName }
+                    arr.push(obj)
+
+
+                })
+                setVitaminsItems(alphabeticalOrder(arr))
+            })
+        }
+    }, [vitaminsItems])
+
+    useEffect(() => {
+        if (fatsItems === null) {
+            const parentFoodString = "/foodType_" + FoodTypes.fats
+            const parentFooddItems = db.collection(parentFoodString)
+            parentFooddItems.onSnapshot((querySnapShot) => {
+                let arr = []
+                querySnapShot.forEach((doc) => {
+                    const itemName = doc.data()["name"]
+                    const itemImage = doc.data()["image"]
+                    const itemHebrewName = doc.data()["hebrewName"]
+                    const obj = { name: itemName, img: itemImage, hebrewName: itemHebrewName }
+                    arr.push(obj)
+
+
+                })
+                setFatsItems(alphabeticalOrder(arr))
+            })
+        }
+    }, [fatsItems])
     // const renderViewPagerPage = (data) => {
     //     return (
     //         <View key={data} style={{
@@ -147,7 +208,7 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         setCurrentPage(change)
     }, [page])
 
-    useEffect(() => { console.log('ss') }, [swipe.current])
+    //useEffect(() => { console.log('ss') }, [swipe.current])
 
 
     useEffect(() => {
@@ -172,6 +233,7 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                 const itemHebrewName = doc.data()["hebrewName"]
                 const obj = { name: itemName, img: itemImage, hebrewName: itemHebrewName }
                 arr.push(obj)
+
             })
         })
 
@@ -183,17 +245,18 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                 }
             case FoodTypes.fats:
                 {
-                    setFatsItems(arr)
+                    const newArray = alphabeticalOrder(arr)
+                    setFatsItems(alphabeticalOrder(newArray))
                     break
                 }
             case FoodTypes.protains:
                 {
-                    setProtainsItems(arr)
+                    setProtainsItems(alphabeticalOrder(arr))
                     break
                 }
             case FoodTypes.vitamins:
                 {
-                    setVitaminsItems(arr)
+                    setVitaminsItems(alphabeticalOrder(arr))
                     break
                 }
         }
@@ -224,27 +287,37 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
         return (
             <View style={{
                 flexDirection: 'row',
-                height: 40,
+                height: height * 0.06,
+                width: width * 0.6,
+
                 alignItems: 'center',
-                marginHorizontal: 24,
-                marginVertical: 8,
+
+                justifyContent: 'flex-start',
+                // marginHorizontal: 24,
+                // marginVertical: 8,
                 paddingHorizontal: 12,
-                borderRadius: 12,
-                backgroundColor: '#F5F5F8'
+
+                borderRadius: 20,
+                backgroundColor: Colors.lightBlue,
+                borderWidth: 3,
+                borderColor: '#d6ced8'
+
             }}>
                 <Image
                     source={require("../../assets/icons/search.png")}
-                    style={{ height: 20, width: 20, tintColor: '#000000' }}
+                    style={{ height: 20, width: 20, tintColor: '#5a8693' }}
                 />
 
                 <TextInput
+
                     style={{
                         flex: 1,
                         marginLeft: 12,
                         fontSize: 16,
                         lineHeight: 22,
                     }}
-                    placeholder="Search Food..."
+                    placeholder="חיפוש מאכל..."
+
                     onChangeText={text => {
                         if (text != '') {
                             setSearchIsOn(true)
@@ -310,7 +383,8 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
             </View>
         )
     }
-    const renderItem = ({ item }) => {
+    const renderItem = ({ item, index }) => {
+
         return (
             <View
 
@@ -321,7 +395,13 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                 <Animatable.View
                     animation={'bounceInRight'} duration={1000}
 
-                    style={{ marginTop: height * 0.02 }}>
+                    style={{
+                        right: index % 2 === 1 ? width * 0.4 : -width * 0.4,
+
+                        // left: index % 2 === 0 ? width * 0.1 : 0
+
+
+                    }}>
 
 
 
@@ -365,7 +445,8 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
             // Flat List Item
             <Text
                 style={{ color: 'transparent' }}
-                onPress={() => console.log(item)}>
+            //  onPress={() => console.log(item)}
+            >
                 No Data Found
             </Text>
         );
@@ -400,13 +481,18 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
 
                 scrollEnabled={allowScroll}
                 columnWrapperStyle={{
-                    height: height * 0.3,
+
+                    height: height * 0.33,
                     width: width * 0.8,
                     left: width * 0.15,
                     top: height * 0.01,
+
                 }}
                 showsVerticalScrollIndicator={false}
                 numColumns={2}
+                horizontal={false}
+
+
 
                 data={parentItems()}
                 renderItem={renderItem}
@@ -523,6 +609,7 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
 
 
 
+
             <Animatable.View
                 animation={'bounceInRight'} duration={1500} delay={100}
 
@@ -575,6 +662,15 @@ export const ChoosefavoriteFood = ({ route, navigation }) => {
                     borderBottomLeftRadius: 100,
                     borderBottomRightRadius: 70,
                 }}>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', right: width * 0.05, top: height * 0.02 }}>
+                    {renderSearch()}
+
+                </View>
+
+
+
+
 
 
 

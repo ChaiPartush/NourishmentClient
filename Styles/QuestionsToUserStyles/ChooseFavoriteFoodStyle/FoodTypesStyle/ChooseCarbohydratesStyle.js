@@ -3,14 +3,16 @@ import { SIZES } from '../../../../constants/Sizes'
 import { COLORS } from '../../../../constants/Colors'
 import { FONTS } from '../../../../constants/Fonts'
 import { Colors } from '../../../../colors';
+import { height } from '../../../../constants/ScreenDimentionConst';
 
 export const styles = StyleSheet.create({
     cardContainer: {
         width: 150,
         borderColor: Colors.lightBlue,
         borderWidth:3,
+        height:height*0.233,
         padding: SIZES.radius,
-        marginBottom: 10,
+        // marginBottom: 10,
         borderRadius: SIZES.radius,
         backgroundColor: '#d6ced8'
 
